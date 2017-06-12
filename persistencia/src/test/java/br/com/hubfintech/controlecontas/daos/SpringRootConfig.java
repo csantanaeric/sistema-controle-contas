@@ -25,7 +25,7 @@ public class SpringRootConfig {
 		EmbeddedDatabase db = builder
 			.setType(EmbeddedDatabaseType.DERBY) 
 			.addScript("create-db.sql")
-			//.addScript("insert-data.sql")
+			.addScript("insert-data.sql")
 			.build();
 		return db;
 	}

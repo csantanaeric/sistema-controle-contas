@@ -21,6 +21,7 @@ import br.com.hubfintech.controlecontas.transacao.Operacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 
 /**
+ * Classe responsável por publicar funcionalidades do sistema de contas em forma de serviços.
  * @author Eric
  *
  */

@@ -6,6 +6,8 @@ package br.com.hubfintech.controlecontas.contas;
 import java.util.Date;
 import java.util.List;
 
+import br.com.hubfintech.controlecontas.pesssoa.Pessoa;
+
 /**
  * Clase que representa uma conta
  * @author Eric
@@ -27,6 +29,9 @@ public class Conta {
 	
 	/** the conta pai principal */
 	private Conta contaPaiMatriz;
+	
+	/** the pessoa (fisica ou juridica) */
+	private Pessoa pessoa;
 	
 	
 	/** the lista de contas filhas */
@@ -117,10 +122,27 @@ public class Conta {
 		this.contaPaiMatriz = contaPaiMatriz;
 	}
 
+	/**
+	 * @return the pessoa
+	 */
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	/**
+	 * @param pessoa the pessoa to set
+	 */
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Conta [nome=" + nome + ", dataCriacao=" + dataCriacao + ", saldo=" + saldo + ", contaPai=" + contaPai
-				+ ", contaPaiMatriz=" + contaPaiMatriz + ", contasFilhas=" + contasFilhas + "]";
+				+ ", contaPaiMatriz=" + contaPaiMatriz + ", pessoa=" + pessoa + ", contasFilhas=" + contasFilhas + "]";
 	}
 	
 }
