@@ -3,6 +3,8 @@
  */
 package br.com.hubfintech.controlecontas.transacao;
 
+import java.util.Date;
+
 /**
  * @author Eric
  *
@@ -17,6 +19,9 @@ public class Transacao {
 	
 	/** operacao de estorno  */
 	private Estorno estorno;
+	
+	/** data da transacao  */
+	private Date data;
 
 	/**
 	 * @return the transacaoId
@@ -59,6 +64,27 @@ public class Transacao {
 	public void setOperacao(Operacao operacao) {
 		this.operacao = operacao;
 	}
+
+	@Override
+	public String toString() {
+		return "Transacao [transacaoId=" + transacaoId + ", operacao=" + operacao + ", estorno=" + estorno + "]";
+	}
+
+	/**
+	 * @return the data
+	 */
+	public Date getData() {
+		return data;
+	}
+
+	/**
+	 * @param data the data to set
+	 */
+	public void setData(Date data) {
+		this.data = data;
+	}
+	
+	
 	
 }
 

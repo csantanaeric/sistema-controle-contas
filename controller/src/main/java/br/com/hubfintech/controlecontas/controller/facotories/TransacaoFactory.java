@@ -1,15 +1,15 @@
 package br.com.hubfintech.controlecontas.controller.facotories;
 
-import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.hubfintech.controlecontas.contas.ContaFilial;
-import br.com.hubfintech.controlecontas.contas.ContaMatriz;
+import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.controller.dto.AporteRequest;
 import br.com.hubfintech.controlecontas.controller.dto.EstornoRequest;
 import br.com.hubfintech.controlecontas.controller.dto.Request;
 import br.com.hubfintech.controlecontas.controller.dto.TransferenciaRequest;
+import br.com.hubfintech.controlecontas.daos.ContasDao;
+import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
@@ -18,6 +18,12 @@ import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 @Component
 public class TransacaoFactory {
+	
+	@Autowired
+	private ContasDao contaDao;
+	
+	@Autowired
+	private TransacaoDao transacaoDao;
 
 	public  Transacao create(Request request) {
 		Transacao transacao = new Transacao();
@@ -25,8 +31,10 @@ public class TransacaoFactory {
 			TransferenciaRequest tranferenciaRequest = (TransferenciaRequest) request;
 			Transferencia transferencia = new Transferencia();
 			transferencia.setValor(Double.parseDouble(tranferenciaRequest.getValor()));
-			transferencia.setContaOrigem(new ContaFilial(new ContaMatriz()));
-			transferencia.setContaDestino(new ContaFilial(transferencia.getContaOrigem()));
+			Conta contaOrigem = contaDao.encontrarContaPeloNome(tranferenciaRequest.getContaOrigem()); 
+			Conta contaDestino = contaDao.encontrarContaPeloNome(tranferenciaRequest.getContaDestino());
+			transferencia.setContaOrigem(contaOrigem);
+			transferencia.setContaDestino(contaDestino);
 			transferencia.setStatus(StatusOperacao.OK);
 			transacao.setOperacao(transferencia);
 		} else if (request instanceof AporteRequest){
@@ -34,24 +42,17 @@ public class TransacaoFactory {
 			Aporte aporte = new Aporte();
 			aporte.setValor(Double.parseDouble(aporteRequest.getValor()));
 			aporte.setStatus(StatusOperacao.OK);
-			ContaMatriz conta = new ContaMatriz();
-			conta.setDataCriacao(new Date());
-			conta.setNome(aporteRequest.getContaBeneficiada());
+			Conta conta = contaDao.encontrarContaPeloNome(aporteRequest.getContaBeneficiada());
 			aporte.setConta(conta);
 			transacao.setOperacao(aporte);
 		 } else if (request instanceof EstornoRequest){
 			 EstornoRequest estornoResquest = (EstornoRequest) request;
-			 
-			 //buscar no banco a transação
-			 transacao.setTransacaoId(estornoResquest.getTransacaoId());
-			 transacao.setOperacao(new Transferencia());
+			 transacao =  transacaoDao.encontrarTransacaoPeloId(estornoResquest.getTransacaoId());
 			 Estorno estorno = new Estorno();
 			 estorno.setValor(Double.parseDouble(estornoResquest.getValor()));
 			 estorno.setStatus(StatusOperacao.OK);
 			 transacao.setEstorno(estorno);
 		 }
-		
-		
 		return transacao;
 	}
 

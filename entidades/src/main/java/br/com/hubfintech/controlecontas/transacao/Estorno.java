@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.hubfintech.controlecontas.transacao;
 
 /**

@@ -3,7 +3,7 @@
  */
 package br.com.hubfintech.controlecontas.transacao;
 
-import br.com.hubfintech.controlecontas.contas.ContaMatriz;
+import br.com.hubfintech.controlecontas.contas.Conta;
 
 /**
  * Classe que representa um Aporte
@@ -11,22 +11,28 @@ import br.com.hubfintech.controlecontas.contas.ContaMatriz;
  *
  */
 public class Aporte extends Operacao {
-	
-	/** Conta que em que sera creditado o valor da operacao */
-	private ContaMatriz conta;
+
+	/** Conta em que sera creditado o valor da operacao */
+	private Conta conta;
 
 	/**
 	 * @return the conta
 	 */
-	public ContaMatriz getConta() {
+	public Conta getConta() {
 		return conta;
 	}
 
 	/**
-	 * @param conta the conta to set
+	 * @param conta
+	 *            the conta to set
 	 */
-	public void setConta(ContaMatriz conta) {
+	public void setConta(Conta conta) {
 		this.conta = conta;
+	}
+
+	@Override
+	public String toString() {
+		return "Aporte [conta=" + conta + ", toString()=" + super.toString() + "]";
 	}
 
 }

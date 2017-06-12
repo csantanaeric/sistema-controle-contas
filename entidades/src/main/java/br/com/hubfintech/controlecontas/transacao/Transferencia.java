@@ -46,6 +46,4 @@ public class Transferencia extends Operacao {
 		this.contaDestino = contaDestino;
 	}
 
-
-	
 }

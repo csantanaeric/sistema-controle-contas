@@ -49,4 +49,23 @@ public abstract class Operacao {
 		this.status = status;
 	}
 
+	/**
+	 * @return the dataOpercao
+	 */
+	public Date getDataOpercao() {
+		return dataOpercao;
+	}
+
+	/**
+	 * @param dataOpercao the dataOpercao to set
+	 */
+	public void setDataOpercao(Date dataOpercao) {
+		this.dataOpercao = dataOpercao;
+	}
+
+	@Override
+	public String toString() {
+		return "Operacao [valor=" + valor + ", dataOpercao=" + dataOpercao + ", status=" + status + "]";
+	}
+	
 }
