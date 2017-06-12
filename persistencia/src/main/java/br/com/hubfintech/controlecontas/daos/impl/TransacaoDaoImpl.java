@@ -26,7 +26,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 /**
- * @author cafalchio
+ * @author eric
  *
  */
 @Component

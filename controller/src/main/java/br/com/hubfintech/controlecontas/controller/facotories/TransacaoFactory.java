@@ -16,6 +16,11 @@ import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
+/**
+ * 
+ * @author eric
+ *
+ */
 @Component
 public class TransacaoFactory {
 	
