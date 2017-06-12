@@ -5,8 +5,10 @@ package br.com.hubfintech.controlecontas.controller.regras.impl;
 
 import org.springframework.stereotype.Component;
 
+import br.com.hubfintech.controlecontas.contas.ContaMatriz;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasNegocioException;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao;
+import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 
 /**
@@ -21,8 +23,13 @@ public class RegrasDeAporte implements RegrasTransacao {
 	 */
 	@Override
 	public void validar(Transacao transacao) throws RegrasNegocioException {
-		// TODO Auto-generated method stub
-
+		if(transacao.getOperacao() != null && transacao.getOperacao() instanceof Aporte){
+			Aporte aporte = (Aporte) transacao.getOperacao();
+			if(aporte.getConta() == null){
+				throw new RegrasNegocioException("Conta não informada!");
+			} else if(! (aporte.getConta() instanceof ContaMatriz) ){
+				throw new RegrasNegocioException("Aporte permitido somente em conta matriz!");
+			}
+		}
 	}
-
 }

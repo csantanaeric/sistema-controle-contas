@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.hubfintech.controlecontas.controller.regras.RegrasNegocioException;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao;
+import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 
 /**
@@ -18,7 +19,10 @@ public class RegrasDeEstorno implements RegrasTransacao {
 
 	@Override
 	public void validar(Transacao transacao) throws RegrasNegocioException {
-		// TODO Auto-generated method stub
+		if(transacao.getOperacao() == null){
+			throw new RegrasNegocioException("Transação não encontrada para estorno.");
+		}
+		
 		
 	}
 
