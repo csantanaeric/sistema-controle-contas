@@ -19,9 +19,16 @@ public class RegrasDeEstorno implements RegrasTransacao {
 
 	@Override
 	public void validar(Transacao transacao) throws RegrasNegocioException {
+		Estorno estorno = transacao.getEstorno();
 		if(transacao.getOperacao() == null){
 			throw new RegrasNegocioException("Transação não encontrada para estorno.");
 		}
+		
+		
+	}
+
+	@Override
+	public void executarOperacao(Transacao transacao) throws RegrasNegocioException {
 		
 		
 	}

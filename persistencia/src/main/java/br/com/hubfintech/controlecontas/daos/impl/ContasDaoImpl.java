@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.daos.ContasDao;
 
+
 /**
  * 
  * @author eric
@@ -104,7 +105,6 @@ public class ContasDaoImpl implements ContasDao {
             LOGGER.info("Conta não encontrada",e);
             return null;
         }
-		
 	}
 
 
@@ -114,6 +114,14 @@ public class ContasDaoImpl implements ContasDao {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void atualizarSaldo(Conta contas, Double saldo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 

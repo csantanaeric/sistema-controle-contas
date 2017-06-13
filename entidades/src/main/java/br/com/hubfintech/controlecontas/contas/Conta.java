@@ -25,7 +25,7 @@ public class Conta {
 	private Date dataCriacao;
 	
 	/** the Saldo da conta */
-	private Double saldo;
+	private List<Saldo> saldos;
 	
 	/** the conta pai */
 	private Conta contaPai;
@@ -74,20 +74,6 @@ public class Conta {
 	 */
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
-	}
-
-	/**
-	 * @return the saldo
-	 */
-	public Double getSaldo() {
-		return saldo;
-	}
-
-	/**
-	 * @param saldo the saldo to set
-	 */
-	public void setSaldo(Double saldo) {
-		this.saldo = saldo;
 	}
 
 	/**
@@ -147,15 +133,6 @@ public class Conta {
 		this.pessoa = pessoa;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Conta [nome=" + nome + ", dataCriacao=" + dataCriacao + ", saldo=" + saldo + ", contaPai=" + contaPai
-				+ ", contaPaiMatriz=" + contaPaiMatriz + ", pessoa=" + pessoa + ", contasFilhas=" + contasFilhas + "]";
-	}
-
 	/**
 	 * @return the tipoPessoa
 	 */
@@ -183,5 +160,31 @@ public class Conta {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	/**
+	 * @return the saldos
+	 */
+	public List<Saldo> getSaldos() {
+		return saldos;
+	}
+
+	/**
+	 * @param saldos the saldos to set
+	 */
+	public void setSaldos(List<Saldo> saldos) {
+		this.saldos = saldos;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Conta [id=" + id + ", nome=" + nome + ", dataCriacao=" + dataCriacao + ", saldos=" + saldos
+				+ ", contaPai=" + contaPai + ", contaPaiMatriz=" + contaPaiMatriz + ", tipoPessoa=" + tipoPessoa
+				+ ", pessoa=" + pessoa + ", contasFilhas=" + contasFilhas + "]";
+	}
+	
+	
 	
 }

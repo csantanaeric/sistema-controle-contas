@@ -109,4 +109,10 @@ public class TransacaoDaoImpl implements TransacaoDao {
 		map.put("DT_TRANSACAO", transacao.getData());
 	}
 
+	@Override
+	public void atualizar(Transacao transacao) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -12,7 +12,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 /**
- * @author cafalchio
+ * @author eric
  *
  */
 public class TransacaoMapper implements RowMapper<Transacao> {

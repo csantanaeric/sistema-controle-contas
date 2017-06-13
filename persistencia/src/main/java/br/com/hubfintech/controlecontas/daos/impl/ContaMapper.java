@@ -30,7 +30,7 @@ public class ContaMapper implements RowMapper<Conta> {
 	public Conta mapRow(ResultSet rs, int position) throws SQLException {
 		Conta conta = new Conta();
 		conta.setNome(rs.getString("NOME"));
-		conta.setSaldo(rs.getDouble("SALDO"));
+		
 		conta.setTipoPessoa("F".equals(rs.getString("TP_PESSOA")) ? TipoPessoa.FISICA : TipoPessoa.JURIDICA);
 		long contaPessoaoId = rs.getLong("CONTA_PESSOA_ID");
 		conta.setPessoa(pessoaDao.encontrarPessoaPorId(contaPessoaoId, conta.getTipoPessoa()));

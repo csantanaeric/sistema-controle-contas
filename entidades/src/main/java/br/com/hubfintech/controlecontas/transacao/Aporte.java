@@ -14,6 +14,9 @@ public class Aporte extends Operacao {
 
 	/** Conta em que sera creditado o valor da operacao */
 	private Conta conta;
+	
+	/** Identificador unico do aporte */
+	private String aporteID;
 
 	/**
 	 * @return the conta
@@ -33,6 +36,20 @@ public class Aporte extends Operacao {
 	@Override
 	public String toString() {
 		return "Aporte [conta=" + conta + ", toString()=" + super.toString() + "]";
+	}
+
+	/**
+	 * @return the aporteID
+	 */
+	public String getAporteID() {
+		return aporteID;
+	}
+
+	/**
+	 * @param aporteID the aporteID to set
+	 */
+	public void setAporteID(String aporteID) {
+		this.aporteID = aporteID;
 	}
 
 }

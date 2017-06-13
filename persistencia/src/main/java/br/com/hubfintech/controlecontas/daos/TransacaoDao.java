@@ -18,7 +18,18 @@ public interface TransacaoDao {
 	 */
 	public Transacao encontrarTransacaoPeloId(String id);
 
+	/**
+	 * Inserir nova transacao
+	 * @param transacao
+	 * @return id da transacao
+	 */
 	long inserirTransacao(Transacao transacao);
+
+	/**
+	 * atualizar transacao
+	 * @param transacao
+	 */
+	public void atualizar(Transacao transacao);
 		
 	
 
