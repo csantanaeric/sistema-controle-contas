@@ -23,6 +23,7 @@ public class PersistenciaApplicationTests {
 	@Autowired
 	private TransacaoDao transacaoDao;
 	
+	@Autowired
 	private ContasDao contasDao;
 	
 	@Test @Ignore
@@ -37,7 +38,7 @@ public class PersistenciaApplicationTests {
 	@Test 
 	public void testeConsultaConta(){
 		Conta conta = contasDao.encontrarContaPeloNome("121");
-		System.out.println(conta);
+		assertNotNull("Conta de nome 121 deveria ser encontrado.",conta);
 	}
 
 }

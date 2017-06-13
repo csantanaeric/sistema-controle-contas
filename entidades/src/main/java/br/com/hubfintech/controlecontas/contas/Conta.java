@@ -15,6 +15,9 @@ import br.com.hubfintech.controlecontas.pesssoa.Pessoa;
  */
 public class Conta {
 
+	/** the id da conta */
+	private Long id;
+	
 	/** the nome da conta */
 	private String nome;
 	
@@ -38,6 +41,12 @@ public class Conta {
 	
 	/** the lista de contas filhas */
 	private List<Conta> contasFilhas;
+
+	public Conta(){}
+	
+	public Conta(long id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the nome
@@ -159,6 +168,20 @@ public class Conta {
 	 */
 	public void setTipoPessoa(TipoPessoa tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

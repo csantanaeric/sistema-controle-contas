@@ -4,11 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.contas.TipoPessoa;
-import br.com.hubfintech.controlecontas.daos.ContasDao;
 import br.com.hubfintech.controlecontas.daos.PessoaDao;
 
 /**
@@ -16,13 +17,13 @@ import br.com.hubfintech.controlecontas.daos.PessoaDao;
  * @author Eric
  *
  */
+@Component
+@Scope("prototype")
 public class ContaMapper implements RowMapper<Conta> {
 
 	@Autowired
 	private PessoaDao pessoaDao;
-	
-	@Autowired
-	private ContasDao contaDao;
+
 	
 	
 	@Override
@@ -34,14 +35,9 @@ public class ContaMapper implements RowMapper<Conta> {
 		long contaPessoaoId = rs.getLong("CONTA_PESSOA_ID");
 		conta.setPessoa(pessoaDao.encontrarPessoaPorId(contaPessoaoId, conta.getTipoPessoa()));
 		Long contaPaiId = rs.getLong("CONTA_PAI_ID");
-		if(contaPaiId != null){
-			conta.setContaPai(contaDao.encontrarContaPeloId(contaPaiId));
-		}
-		
 		Long contaPaiMatrizId = rs.getLong("CONTA_PAI_MATRIZ_ID");
-		if(contaPaiMatrizId != null){
-			conta.setContaPai(contaDao.encontrarContaPeloId(contaPaiMatrizId));
-		}
+		conta.setContaPai(contaPaiId == null ? null : new Conta(rs.getLong("CONTA_PAI_ID")) );
+		conta.setContaPaiMatriz(contaPaiMatrizId == null ? null : new Conta(rs.getLong("CONTA_PAI_MATRIZ_ID")) );
 		return conta;
 	}
 

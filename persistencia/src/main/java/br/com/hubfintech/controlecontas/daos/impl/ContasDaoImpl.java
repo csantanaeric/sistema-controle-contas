@@ -48,6 +48,9 @@ public class ContasDaoImpl implements ContasDao {
 
 	private SimpleJdbcInsert insert;
 	
+	@Autowired
+	private ContaMapper contaMapper;
+	
 	
     /**
      * Construtor que instancia o template baseado no dado datasource
@@ -77,7 +80,14 @@ public class ContasDaoImpl implements ContasDao {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("NOME", nome);
 		try {
-            return this.template.queryForObject(QUERY_ECONTRAR_CONTA_POR_NOME, map, new ContaMapper());
+            Conta conta = this.template.queryForObject(QUERY_ECONTRAR_CONTA_POR_NOME, map, contaMapper);
+            if(conta.getContaPaiMatriz() != null){
+            	conta.setContaPaiMatriz(this.encontrarContaPeloId(conta.getContaPaiMatriz().getId()));
+            }
+            if(conta.getContaPai() != null){
+            	conta.setContaPaiMatriz(this.encontrarContaPeloId(conta.getContaPai().getId()));
+            }
+            return conta;
         } catch (final EmptyResultDataAccessException e) {
         	LOGGER.info("Conta não encontrada",e);
         	return null;
@@ -89,7 +99,7 @@ public class ContasDaoImpl implements ContasDao {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("CONTA_ID", contaPaiId);
 		try {
-            return this.template.queryForObject(QUERY_ECONTRAR_CONTA_POR_ID, map, new ContaMapper());
+            return this.template.queryForObject(QUERY_ECONTRAR_CONTA_POR_ID, map, contaMapper);
         } catch (final EmptyResultDataAccessException e) {
             LOGGER.info("Conta não encontrada",e);
             return null;

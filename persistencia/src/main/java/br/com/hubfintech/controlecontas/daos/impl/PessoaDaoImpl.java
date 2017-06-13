@@ -15,6 +15,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Component;
 
 import br.com.hubfintech.controlecontas.contas.TipoPessoa;
 import br.com.hubfintech.controlecontas.daos.PessoaDao;
@@ -24,6 +25,7 @@ import br.com.hubfintech.controlecontas.pesssoa.Pessoa;
  * @author Eric
  *
  */
+@Component
 public class PessoaDaoImpl implements PessoaDao {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PessoaDaoImpl.class);
@@ -81,7 +83,7 @@ public class PessoaDaoImpl implements PessoaDao {
 		if(TipoPessoa.FISICA.equals(tipoPessoa)){
 			sb.append(" AND CP.PESSOA_FISICA_ID = PESSOA.PESSOA_FISICA_ID ");
 		} else {
-			sb.append(" AND		CP.PESSOA_FISICA_ID = PESSOA.PESSOA_JURIDICA_ID ");
+			sb.append(" AND		CP.PESSOA_JURIDICA_ID = PESSOA.PESSOA_JURIDICA_ID ");
 		}
 		final Map<String, Object> map = new HashMap<>();
 		map.put("CONTA_PESSOA_ID", id);
