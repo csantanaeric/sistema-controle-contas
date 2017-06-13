@@ -30,6 +30,8 @@ public class Conta {
 	/** the conta pai principal */
 	private Conta contaPaiMatriz;
 	
+	private TipoPessoa tipoPessoa;
+	
 	/** the pessoa (fisica ou juridica) */
 	private Pessoa pessoa;
 	
@@ -143,6 +145,20 @@ public class Conta {
 	public String toString() {
 		return "Conta [nome=" + nome + ", dataCriacao=" + dataCriacao + ", saldo=" + saldo + ", contaPai=" + contaPai
 				+ ", contaPaiMatriz=" + contaPaiMatriz + ", pessoa=" + pessoa + ", contasFilhas=" + contasFilhas + "]";
+	}
+
+	/**
+	 * @return the tipoPessoa
+	 */
+	public TipoPessoa getTipoPessoa() {
+		return tipoPessoa;
+	}
+
+	/**
+	 * @param tipoPessoa the tipoPessoa to set
+	 */
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 	
 }

@@ -21,4 +21,7 @@ public interface ContasDao {
 	
 	public void inserirConta(Conta conta);
 
+
+	Conta encontrarContaPeloId(Long contaPaiId);
+
 }
