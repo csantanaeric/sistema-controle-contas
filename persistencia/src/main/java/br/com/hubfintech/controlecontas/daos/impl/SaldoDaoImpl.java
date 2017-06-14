@@ -75,6 +75,9 @@ public class SaldoDaoImpl implements SaldoDao {
 	public List<Saldo> inserir(Saldo... saldos) {
 		List<Saldo> listaSaldo = new ArrayList<>();
 		for(Saldo saldo : saldos){
+			if(saldo == null){
+				continue;
+			}
 			final Map<String, Object> map = new HashMap<>();
 			this.popularDadosSaldo(saldo, map);
 			final StringJoiner keys = new StringJoiner(DELIMITER);

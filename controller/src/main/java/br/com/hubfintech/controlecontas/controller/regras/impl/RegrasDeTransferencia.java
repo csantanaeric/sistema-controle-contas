@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.hubfintech.controlecontas.contas.Saldo;
+import br.com.hubfintech.controlecontas.contas.StatusConta;
 import br.com.hubfintech.controlecontas.controller.regras.Regra;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasNegocioException;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao;
@@ -22,6 +23,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 /**
+ * Classe que encapsula as regras de validação e execuçãodo de tranferencia
  * @author Eric
  *
  */
@@ -39,20 +41,21 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 	private OperacaoDao operacaoDao;
 	
 	private List<Regra> listaRegras;
-	
-	public void RegrasDeTransferencia(){
-		listaRegras.add((transacao,transferencia)-> this.validaValor(transacao,transferencia));
-	}
-
-	
-	public String validaValor(Transacao transacao, Operacao transferencia)  {
-		if(transferencia.getValor() <= 0 ){
-			return "Operação não realizada. Valor inválido";
-		}
-		return null;
-	}
-
-	
+//	
+//	public void RegrasDeTransferencia(){
+//		
+//		//Regra regra = (transacao, operacao) -> this.validaValor(transacao, operacao);
+//		
+//		listaRegras.add((transacao,operacao)-> this.validaValor(transacao,operacao));
+//	}
+//
+//	
+//	public String validaValor(Transacao transacao, Operacao transferencia )   {
+//		if(transferencia.getValor() <= 0 ){
+//			return "Operação não realizada. Valor inválido.";
+//		}
+//		return null;
+//	}
 
 	/* (non-Javadoc)
 	 * @see br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao#validar(br.com.hubfintech.controlecontas.transacao.Transacao)
@@ -60,12 +63,20 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 	@Override
 	public void validar(Transacao transacao) throws RegrasNegocioException {
 		Transferencia transferencia = (Transferencia)transacao.getOperacao();
+		RegrasNegocioException ex = null;
+		
+		
+		
 		if(transferencia.getValor() <= 0 ){
 			throw new  RegrasNegocioException("Operação não realizada. Valor inválido.");
 		}
 		
 		if(transferencia.getContaOrigem() == null || transferencia.getContaDestino() == null ){
 			throw new  RegrasNegocioException("Operação não realizada. Conta de origem ou destino não informado.");
+		}
+		
+		if(!StatusConta.ATIVA.equals(transferencia.getContaDestino().getStatusConta())){
+			throw new RegrasNegocioException("Operacao não permitida. A conta está ativa!");
 		}
 		
 		Saldo saldo = ControllerUtilitario.getSaldo(transferencia.getContaOrigem().getSaldos()); 
@@ -75,7 +86,7 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 		}
 		
 		if(transferencia.getContaDestino().getContaPaiMatriz() != null){
-			throw new  RegrasNegocioException("Operação não permitida. A conta de destino é um conta Matriz.");
+			throw new  RegrasNegocioException("Operação não permitida. A conta de destino é uma conta Matriz.");
 		}
 		
 		if(transferencia.getContaOrigem().getContaPaiMatriz() != transferencia.getContaDestino().getContaPaiMatriz()){
@@ -83,7 +94,6 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 		}
 	}
 
-	
 	@Override
 	public void executarOperacao(Transacao transacao) throws RegrasNegocioException {
 		Transferencia transferencia = (Transferencia) transacao.getOperacao();

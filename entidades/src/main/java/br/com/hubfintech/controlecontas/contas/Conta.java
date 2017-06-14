@@ -38,6 +38,9 @@ public class Conta {
 	/** the pessoa (fisica ou juridica) */
 	private Pessoa pessoa;
 	
+	/** Status da conta */
+	private StatusConta statusConta;
+	
 	
 	/** the lista de contas filhas */
 	private List<Conta> contasFilhas;
@@ -175,6 +178,20 @@ public class Conta {
 		this.saldos = saldos;
 	}
 
+	/**
+	 * @return the statusConta
+	 */
+	public StatusConta getStatusConta() {
+		return statusConta;
+	}
+
+	/**
+	 * @param statusConta the statusConta to set
+	 */
+	public void setStatusConta(StatusConta statusConta) {
+		this.statusConta = statusConta;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -182,7 +199,7 @@ public class Conta {
 	public String toString() {
 		return "Conta [id=" + id + ", nome=" + nome + ", dataCriacao=" + dataCriacao + ", saldos=" + saldos
 				+ ", contaPai=" + contaPai + ", contaPaiMatriz=" + contaPaiMatriz + ", tipoPessoa=" + tipoPessoa
-				+ ", pessoa=" + pessoa + ", contasFilhas=" + contasFilhas + "]";
+				+ ", pessoa=" + pessoa + ", statusConta=" + statusConta + ", contasFilhas=" + contasFilhas + "]";
 	}
 	
 	

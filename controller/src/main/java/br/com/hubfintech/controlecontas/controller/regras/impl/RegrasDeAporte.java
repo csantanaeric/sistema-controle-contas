@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.contas.Saldo;
+import br.com.hubfintech.controlecontas.contas.StatusConta;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasNegocioException;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao;
 import br.com.hubfintech.controlecontas.controller.util.ControllerUtilitario;
@@ -25,6 +26,7 @@ import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 
 /**
+ * Classe que encapsula as regras de validação e execuçãodo do aporte
  * @author Eric
  *
  */
@@ -52,6 +54,9 @@ public class RegrasDeAporte implements RegrasTransacao {
 			if(aporte.getConta() == null){
 				throw new RegrasNegocioException("Operacao não realizada. Conta não informada!");
 			}
+			if(!StatusConta.ATIVA.equals(aporte.getConta().getStatusConta())){
+				throw new RegrasNegocioException("Operacao não permitida. A conta está ativa!");
+			}
 			if(aporte.getConta().getContaPaiMatriz() != null ){
 				throw new RegrasNegocioException("Operacao não permitida. A conta de destino não é uma conta matriz!");
 			}
@@ -61,12 +66,16 @@ public class RegrasDeAporte implements RegrasTransacao {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao#executarOperacao(br.com.hubfintech.controlecontas.transacao.Transacao)
+	 */
 	@Override
 	public void executarOperacao(Transacao transacao) throws RegrasNegocioException {
 		Aporte aporte = (Aporte) transacao.getOperacao();
 		long transacaoId =  transacaoDao.inserirTransacao(transacao);
 		try {
-			aporte.setAporteID(this.gerarAporteId(transacaoId));
+			aporte.setCodigoAporte(this.gerarAporteId(transacaoId));
 		} catch (NoSuchAlgorithmException e) {
 			LOGGER.error("Falha ao gerar id do aporte.",e);
 			throw new RuntimeException(e);
@@ -79,12 +88,10 @@ public class RegrasDeAporte implements RegrasTransacao {
 		novoSaldo.setValor(saldo.getValor()+aporte.getValor());
 		saldoDao.inserir(saldo);
 		operacaoDao.inserirOperacao(aporte);
-		
-		
 	}
 
 	/**
-	 * algoritimo para gerar um identificados unico para o aporte
+	 * Algoritimo para gerar um identificador único para o aporte
 	 * @param transacaoid
 	 * @return id unico
 	 * @throws NoSuchAlgorithmException

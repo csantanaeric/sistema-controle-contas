@@ -11,14 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Component;
 
 import br.com.hubfintech.controlecontas.daos.OperacaoDao;
+import br.com.hubfintech.controlecontas.transacao.Aporte;
+import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 /**
  * @author eric
  *
  */
+@Component
 public class OperacaoDaoImpl implements OperacaoDao {
 	
 private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class);
@@ -58,6 +62,18 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class
 	
     @Override
 	public void inserirOperacao(Transferencia transferencia) {
+		
+		
+	}
+
+	@Override
+	public void inserirOperacao(Aporte aporte) {
+		
+		
+	}
+
+	@Override
+	public void inserirOperacao(Estorno estorno) {
 		
 		
 	}

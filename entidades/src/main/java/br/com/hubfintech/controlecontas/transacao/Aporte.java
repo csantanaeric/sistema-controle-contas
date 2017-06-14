@@ -16,7 +16,7 @@ public class Aporte extends Operacao {
 	private Conta conta;
 	
 	/** Identificador unico do aporte */
-	private String aporteID;
+	private String codigoAporte;
 
 	/**
 	 * @return the conta
@@ -39,17 +39,17 @@ public class Aporte extends Operacao {
 	}
 
 	/**
-	 * @return the aporteID
+	 * @return the codigoAporte
 	 */
-	public String getAporteID() {
-		return aporteID;
+	public String getCodigoAporte() {
+		return codigoAporte;
 	}
 
 	/**
-	 * @param aporteID the aporteID to set
+	 * @param codigoAporte the codigoAporte to set
 	 */
-	public void setAporteID(String aporteID) {
-		this.aporteID = aporteID;
+	public void setCodigoAporte(String codigoAporte) {
+		this.codigoAporte = codigoAporte;
 	}
 
 }
