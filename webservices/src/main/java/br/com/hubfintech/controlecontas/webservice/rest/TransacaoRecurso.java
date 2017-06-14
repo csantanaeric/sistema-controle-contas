@@ -47,17 +47,17 @@ public class TransacaoRecurso {
 	}
 	
 	public ResponseEntity<Response> executar(Request request){
-		processador.execute(request, t -> this.prepararRetorno(request,t) );
+		processador.execute(request, (t, m) -> this.prepararRetorno(request,t,m) );
 		return new ResponseEntity<>(request.getResponse() ,HttpStatus.OK);
 	}
 	
 	
-	public void prepararRetorno(Request request, Transacao transacao){
+	public void prepararRetorno(Request request, Transacao transacao, String mensagem){
 		Response response = new Response();
-		Operacao operacao = transacao.getOperacao();
-		if(operacao != null){
+		if(transacao.getOperacao() != null){
+			Operacao operacao = transacao.getOperacao();
 			response.setStatus(operacao.getStatus().toString());
-			response.setMensagem("Transferencia efetuada com sucesso");
+			response.setMensagem(mensagem);
 			response.setValor(Double.toString(operacao.getValor()));
 		}
 		request.setResponse(response);

@@ -5,6 +5,6 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 @FunctionalInterface
 public interface RetornoService {
 	
-	public void execute(Transacao transacao);
+	public void execute(Transacao transacao,String mensagem);
 
 }

@@ -19,6 +19,7 @@ import br.com.hubfintech.controlecontas.daos.OperacaoDao;
 import br.com.hubfintech.controlecontas.daos.SaldoDao;
 import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Operacao;
+import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
@@ -41,59 +42,80 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 	private OperacaoDao operacaoDao;
 	
 	private List<Regra> listaRegras;
-//	
-//	public void RegrasDeTransferencia(){
-//		
-//		//Regra regra = (transacao, operacao) -> this.validaValor(transacao, operacao);
-//		
-//		listaRegras.add((transacao,operacao)-> this.validaValor(transacao,operacao));
-//	}
-//
-//	
-//	public String validaValor(Transacao transacao, Operacao transferencia )   {
-//		if(transferencia.getValor() <= 0 ){
-//			return "Operação não realizada. Valor inválido.";
-//		}
-//		return null;
-//	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**to-do subistituir os ifs por lambda*/
 	/* (non-Javadoc)
 	 * @see br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao#validar(br.com.hubfintech.controlecontas.transacao.Transacao)
 	 */
 	@Override
 	public void validar(Transacao transacao) throws RegrasNegocioException {
 		Transferencia transferencia = (Transferencia)transacao.getOperacao();
-		RegrasNegocioException ex = null;
-		
-		
-		
-		if(transferencia.getValor() <= 0 ){
-			throw new  RegrasNegocioException("Operação não realizada. Valor inválido.");
-		}
-		
-		if(transferencia.getContaOrigem() == null || transferencia.getContaDestino() == null ){
-			throw new  RegrasNegocioException("Operação não realizada. Conta de origem ou destino não informado.");
-		}
-		
-		if(!StatusConta.ATIVA.equals(transferencia.getContaDestino().getStatusConta())){
-			throw new RegrasNegocioException("Operacao não permitida. A conta está ativa!");
-		}
-		
-		Saldo saldo = ControllerUtilitario.getSaldo(transferencia.getContaOrigem().getSaldos()); 
-		
-		if( saldo.getValor() < transferencia.getValor()){
-			throw new  RegrasNegocioException("Operação não realizada. Saldo insuficiente.");
-		}
-		
-		if(transferencia.getContaDestino().getContaPaiMatriz() != null){
-			throw new  RegrasNegocioException("Operação não permitida. A conta de destino é uma conta Matriz.");
-		}
-		
-		if(transferencia.getContaOrigem().getContaPaiMatriz() != transferencia.getContaDestino().getContaPaiMatriz()){
-			throw new  RegrasNegocioException("Operação não permitida. As contas de origiem e destino não descendem da mesma conta matriz.");
+
+
+
+
+		try {
+			if(transferencia.getValor() <= 0 ){
+				throw new  RegrasNegocioException("Operação não realizada. Valor inválido.");
+
+
+			}
+			
+			if(transferencia.getContaOrigem() == null || transferencia.getContaDestino() == null ){
+				throw new  RegrasNegocioException("Operação não realizada. Conta de origem ou destino não informado.");
+
+
+			}
+			
+			if(!StatusConta.ATIVA.equals(transferencia.getContaDestino().getStatusConta())){
+				throw new RegrasNegocioException("Operacao não permitida. A conta está ativa!");
+
+
+			}
+			
+			Saldo saldo = ControllerUtilitario.getSaldo(transferencia.getContaOrigem().getSaldos()); 
+
+			
+			if( saldo.getValor() < transferencia.getValor()){
+				throw new  RegrasNegocioException("Operação não realizada. Saldo insuficiente.");
+
+
+			}
+			
+			if(transferencia.getContaDestino().getContaPaiMatriz() != null){
+				throw new  RegrasNegocioException("Operação não permitida. A conta de destino é uma conta Matriz.");
+
+
+			}
+			
+			if(transferencia.getContaOrigem().getContaPaiMatriz() != transferencia.getContaDestino().getContaPaiMatriz()){
+				throw new  RegrasNegocioException("Operação não permitida. As contas de origiem e destino não descendem da mesma conta matriz.");
+			}
+		} catch (RegrasNegocioException e) {
+			transferencia.setStatus(StatusOperacao.NEGADO);
+			throw e;
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao#executarOperacao(br.com.hubfintech.controlecontas.transacao.Transacao)
+	 */
 	@Override
 	public void executarOperacao(Transacao transacao) throws RegrasNegocioException {
 		Transferencia transferencia = (Transferencia) transacao.getOperacao();

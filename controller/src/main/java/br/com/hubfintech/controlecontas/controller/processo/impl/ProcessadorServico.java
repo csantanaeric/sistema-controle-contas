@@ -4,9 +4,11 @@
 package br.com.hubfintech.controlecontas.controller.processo.impl;
 
 import java.util.List;
-import java.util.function.Predicate;
+
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 @Service
 public class ProcessadorServico implements Processador {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProcessadorServico.class);
+	
 	@Autowired
 	private TransacaoFactory transacaoFactory;
 	
@@ -35,16 +39,19 @@ public class ProcessadorServico implements Processador {
 	 * @see br.com.hubfintech.controlecontas.controller.processo.Processador#execute(br.com.hubfintech.controlecontas.controller.dto.Request)
 	 */
 	@Override
-	public void execute(Request request, RetornoService retorno) {
+	public void execute(Request request, RetornoService retorno)  {
 		Transacao transacao = transacaoFactory.create(request);
 		OperacaoService service = this.services.stream().filter(o -> o.isOperacaoCorrente(request)).collect(Collectors.toList()).get(0);
-		Transacao transacaoRetorno = null;
+		
+		String mensagem = "Operacao efetuada com sucesso";
 		try {
-			transacaoRetorno = service.execute(transacao);
+			service.execute(transacao);
 		} catch (RegrasNegocioException e) {
-			
+
+			mensagem = e.getMessage();
+			LOGGER.error("Operacao não realiza",e);
 		}
-		retorno.execute(transacaoRetorno);
+		retorno.execute(transacao,mensagem);
 	}
 
 }

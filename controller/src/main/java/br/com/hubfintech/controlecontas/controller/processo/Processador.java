@@ -5,7 +5,6 @@ package br.com.hubfintech.controlecontas.controller.processo;
 
 import br.com.hubfintech.controlecontas.controller.dto.Request;
 import br.com.hubfintech.controlecontas.controller.processo.impl.RetornoService;
-import br.com.hubfintech.controlecontas.transacao.Transacao;
 
 /**
  * Responsavel por executar os servicos
