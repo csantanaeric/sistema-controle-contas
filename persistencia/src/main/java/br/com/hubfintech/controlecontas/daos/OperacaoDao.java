@@ -5,6 +5,7 @@ package br.com.hubfintech.controlecontas.daos;
 
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
+import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 /**
@@ -17,19 +18,16 @@ public interface OperacaoDao {
 	/**
 	 * persiste trasnferencia
 	 * @param transferencia
+	 * @return 
 	 */
-	void inserirOperacao(Transferencia transferencia);
-	
-	/**
-	 * persiste  aporte
-	 * @param aporte
-	 */
-	void inserirOperacao(Aporte aporte);
+	Long inserirOperacao(Transferencia transferencia);
 	
 	/**
 	 * persiste estorno
-	 * @param estorno
+	 * @param transacao
+	 * @param transferencia
+	 * @return id da operação
 	 */
-	void inserirOperacao(Estorno estorno);
+	Long inserirOperacao(Transacao transacao, Transferencia transferencia);
 	
 }

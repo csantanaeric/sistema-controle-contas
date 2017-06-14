@@ -88,7 +88,7 @@ public class PessoaDaoImpl implements PessoaDao {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("CONTA_PESSOA_ID", id);
 		try {
-            return this.template.queryForObject(sb.toString(), map, new pessoaMapper(tipoPessoa));
+            return this.template.queryForObject(sb.toString(), map, new PessoaMapper(tipoPessoa));
         } catch (final EmptyResultDataAccessException e) {
         	LOGGER.info("Pessao não encontrado");
             return null;

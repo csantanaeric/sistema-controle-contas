@@ -20,6 +20,9 @@ public abstract class Operacao {
 	
 	/** Status da operacao  */
 	private StatusOperacao status;
+	
+	/** Tipo operacao  */
+	private TipoOperacao tipoOpercao;
 
 	/**
 	 * @return the valor
@@ -66,6 +69,20 @@ public abstract class Operacao {
 	@Override
 	public String toString() {
 		return "Operacao [valor=" + valor + ", dataOpercao=" + dataOpercao + ", status=" + status + "]";
+	}
+
+	/**
+	 * @return the tipoOpercao
+	 */
+	public TipoOperacao getTipoOpercao() {
+		return tipoOpercao;
+	}
+
+	/**
+	 * @param tipoOpercao the tipoOpercao to set
+	 */
+	public void setTipoOpercao(TipoOperacao tipoOpercao) {
+		this.tipoOpercao = tipoOpercao;
 	}
 	
 }

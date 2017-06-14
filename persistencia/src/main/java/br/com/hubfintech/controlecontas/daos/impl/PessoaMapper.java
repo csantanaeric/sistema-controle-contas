@@ -15,11 +15,11 @@ import br.com.hubfintech.controlecontas.pesssoa.PessoaJuridica;
  * @author Eric
  *
  */
-public class pessoaMapper implements RowMapper<Pessoa> {
+public class PessoaMapper implements RowMapper<Pessoa> {
 
 	private TipoPessoa TipoPessoa;
 
-	public pessoaMapper(TipoPessoa tipoPessoa) {
+	public PessoaMapper(TipoPessoa tipoPessoa) {
 		this.TipoPessoa = tipoPessoa;
 	}
 
