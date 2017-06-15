@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.daos.TransacaoDao;
+import br.com.hubfintech.controlecontas.daos.mappers.TransacaoMapper;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 

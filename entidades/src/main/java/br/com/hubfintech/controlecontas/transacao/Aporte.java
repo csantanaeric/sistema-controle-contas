@@ -3,8 +3,6 @@
  */
 package br.com.hubfintech.controlecontas.transacao;
 
-import br.com.hubfintech.controlecontas.contas.Conta;
-
 /**
  * Classe que representa um Aporte
  * @author Eric
@@ -12,44 +10,16 @@ import br.com.hubfintech.controlecontas.contas.Conta;
  */
 public class Aporte extends Operacao {
 
-	/** Conta em que sera creditado o valor da operacao */
-	private Conta conta;
-	
-	/** Identificador unico do aporte */
-	private String codigoAporte;
-
-	/**
-	 * @return the conta
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	public Conta getConta() {
-		return conta;
-	}
-
-	/**
-	 * @param conta
-	 *            the conta to set
-	 */
-	public void setConta(Conta conta) {
-		this.conta = conta;
-	}
-
 	@Override
 	public String toString() {
-		return "Aporte [conta=" + conta + ", toString()=" + super.toString() + "]";
-	}
-
-	/**
-	 * @return the codigoAporte
-	 */
-	public String getCodigoAporte() {
-		return codigoAporte;
-	}
-
-	/**
-	 * @param codigoAporte the codigoAporte to set
-	 */
-	public void setCodigoAporte(String codigoAporte) {
-		this.codigoAporte = codigoAporte;
+		return "Aporte [getValor()=" + getValor() + ", getStatus()=" + getStatus() + ", getDataOpercao()="
+				+ getDataOpercao() + ", getTipoOpercao()=" + getTipoOpercao() + ", getCodigoAporte()="
+				+ getCodigoAporte() + ", getContaOrigem()=" + getContaOrigem() + ", getContaDestino()="
+				+ getContaDestino() + ", toString()=" + super.toString() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + "]";
 	}
 
 }

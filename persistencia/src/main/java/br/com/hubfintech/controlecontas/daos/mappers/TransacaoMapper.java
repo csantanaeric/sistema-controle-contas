@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.com.hubfintech.controlecontas.daos.impl;
+package br.com.hubfintech.controlecontas.daos.mappers;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -12,6 +12,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 /**
+ * Mapeamento dos campos do banco com os atributos das classe entidade Transacao.
  * @author eric
  *
  */

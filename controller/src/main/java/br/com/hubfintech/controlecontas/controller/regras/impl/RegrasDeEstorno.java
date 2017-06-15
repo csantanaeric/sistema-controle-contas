@@ -12,13 +12,13 @@ import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.contas.Saldo;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasNegocioException;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao;
-import br.com.hubfintech.controlecontas.controller.util.ControllerUtilitario;
 import br.com.hubfintech.controlecontas.daos.OperacaoDao;
 import br.com.hubfintech.controlecontas.daos.SaldoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
+import br.com.hubfintech.utils.ContasUtils;
 
 /**
  * Classe que encapsula as regras de validação e execuçãodo do estorno
@@ -57,13 +57,13 @@ public class RegrasDeEstorno implements RegrasTransacao {
 			if(aporte.getCodigoAporte() == null){
 				throw new RegrasNegocioException("Operação não permitida. Codigo aporte não informado.");
 			}
-			conta = aporte.getConta();
+			conta = aporte.getContaDestino();
 		} else if(transacao.getOperacao() instanceof Transferencia){
 			transferencia = (Transferencia) transacao.getOperacao();
 			conta = transferencia.getContaDestino();
 			contaOrigem = transferencia.getContaOrigem();
 		}
-		saldoAnterior = ControllerUtilitario.getSaldo(conta.getSaldos());
+		saldoAnterior = ContasUtils.getSaldo(conta.getSaldos());
 		if(estorno.getValor() > saldoAnterior.getValor() ){
 			throw new RegrasNegocioException("Operação não permitida. Saldo insuficiente.");
 		}
@@ -85,12 +85,12 @@ public class RegrasDeEstorno implements RegrasTransacao {
 			saldoContaOrigem = new Saldo();
 			saldoContaOrigem.setContaId(this.conta.getId());
 			saldoContaOrigem.setDataAtualizacao(new Date());
-			saldoContaOrigem.setValor(ControllerUtilitario.getSaldo(contaOrigem.getSaldos()).getValor() +estorno.getValor());
+			saldoContaOrigem.setValor(ContasUtils.getSaldo(contaOrigem.getSaldos()).getValor() +estorno.getValor());
 		}
 		
 		saldoDao.inserir(saldo,saldoContaOrigem);
 		
-		operacaoDao.inserirOperacao(estorno);
+		operacaoDao.inserirOperacao(transacao, estorno);
 	}
 
 }

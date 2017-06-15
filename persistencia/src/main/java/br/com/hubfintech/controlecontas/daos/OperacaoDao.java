@@ -16,18 +16,27 @@ import br.com.hubfintech.controlecontas.transacao.Transferencia;
 public interface OperacaoDao {
 
 	/**
-	 * persiste trasnferencia
-	 * @param transferencia
-	 * @return 
-	 */
-	Long inserirOperacao(Transferencia transferencia);
-	
-	/**
-	 * persiste estorno
+	 * Persiste operacao
 	 * @param transacao
 	 * @param transferencia
 	 * @return id da operação
 	 */
 	Long inserirOperacao(Transacao transacao, Transferencia transferencia);
+	
+	/**
+	 * Persiste estorno
+	 * @param transacao
+	 * @param transferencia
+	 * @return id da operação
+	 */
+	Long inserirOperacao(Transacao transacao, Estorno estorno);
+	
+	/**
+	 * Persiste aporte
+	 * @param transacao
+	 * @param aporte
+	 * @return  id da operação
+	 */
+	Long inserirOperacao(Transacao transacao, Aporte aporte);
 	
 }

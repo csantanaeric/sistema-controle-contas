@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <modules>
     	<module>entidades</module>
+    	<module>utils</module>
     	<module>persistencia</module>
     	<module>controller</module>
     	<module>webservices</module>

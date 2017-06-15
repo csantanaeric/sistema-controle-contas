@@ -3,8 +3,8 @@
  */
 package br.com.hubfintech.controlecontas.daos.impl;
 
+import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +15,16 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
-import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.contas.Saldo;
 import br.com.hubfintech.controlecontas.daos.SaldoDao;
+import br.com.hubfintech.controlecontas.daos.mappers.SaldoMapper;
 
 /**
  * @author eric
@@ -45,6 +47,11 @@ public class SaldoDaoImpl implements SaldoDao {
 
 	private static final String PRIMARY_COLUMN_NAME = "SALDO_ID";
 
+	private static final String QUERY_ECONTRAR_SALDOS = "SELECT * FROM SALDO WHERE CONTA_ID = ?";
+	
+	@Autowired
+	private SaldoMapper saldoMapper;
+
 		private SimpleJdbcInsert insert;
 
 	/**
@@ -64,8 +71,9 @@ public class SaldoDaoImpl implements SaldoDao {
      */
     @Autowired(required = false)
     public SaldoDaoImpl(final JdbcTemplate jdbcTemplate) {
-        this.template = new NamedParameterJdbcTemplate(jdbcTemplate);
-        this.insert = new SimpleJdbcInsert(jdbcTemplate).withTableName(TABLE_NAME).usingGeneratedKeyColumns(PRIMARY_COLUMN_NAME);
+    	this.jdbcTemplate = jdbcTemplate;
+        this.template = new NamedParameterJdbcTemplate(this.jdbcTemplate);
+        this.insert = new SimpleJdbcInsert(this.jdbcTemplate).withTableName(TABLE_NAME).usingGeneratedKeyColumns(PRIMARY_COLUMN_NAME);
     }
 	
 	/* (non-Javadoc)
@@ -100,5 +108,19 @@ public class SaldoDaoImpl implements SaldoDao {
 		map.put("CONTA_ID", saldo.getContaId());
 		map.put("SALDO", saldo.getValor());
 		map.put("DH_ATUALIZACAO", saldo.getDataAtualizacao());
+	}
+
+	@Override
+	public List<Saldo> buscarListaDeSaldos(Long contaId) {
+		final Map<String, Object> map = new HashMap<>();
+		map.put("CONTA_ID", contaId);
+		try {
+			return jdbcTemplate.query(QUERY_ECONTRAR_SALDOS, new Object [] {contaId}, new int[]{ Types.NUMERIC}, saldoMapper);
+//			List<Saldo> saldos  = jdbcTemplate.query(QUERY_ECONTRAR_SALDOS,	new BeanPropertyRowMapper(Saldo.class));
+//			return saldos;
+        } catch (final EmptyResultDataAccessException e) {
+            LOGGER.info("Saldo não encontrada",e);
+            return new ArrayList<>();
+        }
 	}
 }

@@ -40,22 +40,22 @@ public class TransacaoFactory {
 			Conta contaDestino = contaDao.encontrarContaPeloNome(tranferenciaRequest.getContaDestino());
 			transferencia.setContaOrigem(contaOrigem);
 			transferencia.setContaDestino(contaDestino);
-			transferencia.setStatus(StatusOperacao.OK);
+			transferencia.setStatus(StatusOperacao.APROVADO);
 			transacao.setOperacao(transferencia);
 		} else if (request instanceof AporteRequest){
 			AporteRequest aporteRequest = (AporteRequest) request;
 			Aporte aporte = new Aporte();
 			aporte.setValor(Double.parseDouble(aporteRequest.getValor()));
-			aporte.setStatus(StatusOperacao.OK);
+			aporte.setStatus(StatusOperacao.APROVADO);
 			Conta conta = contaDao.encontrarContaPeloNome(aporteRequest.getContaBeneficiada());
-			aporte.setConta(conta);
+			aporte.setContaDestino(conta);
 			transacao.setOperacao(aporte);
 		 } else if (request instanceof EstornoRequest){
 			 EstornoRequest estornoResquest = (EstornoRequest) request;
 			 transacao =  transacaoDao.encontrarTransacaoPeloId(estornoResquest.getTransacaoId());
 			 Estorno estorno = new Estorno();
 			 estorno.setValor(Double.parseDouble(estornoResquest.getValor()));
-			 estorno.setStatus(StatusOperacao.OK);
+			 estorno.setStatus(StatusOperacao.APROVADO);
 			 transacao.setEstorno(estorno);
 		 }
 		return transacao;

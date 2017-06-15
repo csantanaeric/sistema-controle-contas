@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import br.com.hubfintech.controlecontas.daos.OperacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
+import br.com.hubfintech.controlecontas.transacao.Operacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
@@ -57,12 +58,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class
     }
 
     /**
-     * Construtor que instancia o template baseado no dado jdbcTemplate
+     * Construtor que instancia o template jdbc
      * @param jdbcTemplate 
      */
     @Autowired(required = false)
     public OperacaoDaoImpl(final JdbcTemplate jdbcTemplate) {
         this.template = new NamedParameterJdbcTemplate(jdbcTemplate);
+        this.jdbcTemplate = jdbcTemplate;
         this.insert = new SimpleJdbcInsert(this.jdbcTemplate).withTableName(TABLE_NAME).usingGeneratedKeyColumns(PRIMARY_COLUMN_NAME);
     }
 	
@@ -87,40 +89,70 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class
 		this.popularDadosAporte(transacao,aporte,map);
 		return this.gravarOperacao(map);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.hubfintech.controlecontas.daos.OperacaoDao#inserirOperacao(br.com.hubfintech.controlecontas.transacao.Transacao, br.com.hubfintech.controlecontas.transacao.Estorno)
+	 */
+	@Override
+	public Long inserirOperacao(Transacao transacao,Estorno estorno) {
+		final Map<String, Object> map = new HashMap<>();
+		this.popularDadosEstorno(transacao,estorno,map);
+		return this.gravarOperacao(map);
+	}
+	
+	/**
+	 * Popula os dados de transferencia para persistencia
+	 * @param transacao
+	 * @param estorno
+	 * @param map
+	 */
+    private void popularDadosEstorno(Transacao transacao, Estorno estorno, Map<String, Object> map) {
+    	this.populaDadosComum(transacao, estorno, map);
+	}
 
-    /**
+	/**
      * Popula os dados de transferência para persistencia
      * @param transacao
      * @param transferencia
      * @param map
      */
 	private void popularDadosTransferencia(Transacao transacao,Transferencia transferencia, Map<String, Object> map) {
-		map.put("NU_TRANSACAO_ID",transacao.getTransacaoId());
-		map.put("CD_TIPO_OPERACAO", transferencia.getTipoOpercao().getCodigoTipoOpercao());
-		map.put("CD_STATUS_OPERACAO", transferencia.getStatus().getCodigoSatus());
-		map.put("DT_OPERACAO", transferencia.getDataOpercao());
-		map.put("VL_OPERACAO", transferencia.getValor());
-		map.put("CONTA_ORIGEM_ID", transferencia.getContaOrigem().getId());
-		map.put("CONTA_DESTINO_ID", transferencia.getContaDestino().getId());
+		this.populaDadosComum(transacao, transferencia, map);
 	}
 
+	/**
+	 * Popula os dados de aporte para persistencia
+	 * @param transacao
+	 * @param aporte
+	 * @param map
+	 */
 	private void popularDadosAporte(Transacao transacao, Aporte aporte, Map<String, Object> map) {
-		map.put("NU_TRANSACAO_ID",transacao.getTransacaoId());
-		map.put("CD_TIPO_OPERACAO", aporte.getTipoOpercao().getCodigoTipoOpercao());
-		map.put("CD_STATUS_OPERACAO", aporte.getStatus().getCodigoSatus());
-		map.put("DT_OPERACAO", aporte.getDataOpercao());
-		map.put("VL_OPERACAO", aporte.getValor());
-		map.put("CONTA_DESTINO_ID", aporte.getConta().getId());
-		map.put("CD_APORTE", aporte.getCodigoAporte());
+		this.populaDadosComum(transacao, aporte, map);
 	}
 
-	@Override
-	public void inserirOperacao(Estorno estorno) {
-		
-		
+	/**
+	 * popula dados comum operação
+	 * @param transacao
+	 * @param operacao
+	 * @param map
+	 */
+	private void populaDadosComum(Transacao transacao, Operacao operacao, Map<String, Object> map ){
+		map.put("CD_APORTE", operacao.getCodigoAporte());
+		map.put("NU_TRANSACAO_ID",transacao.getTransacaoId());
+		map.put("CD_TIPO_OPERACAO", operacao.getTipoOpercao().getCodigoTipoOpercao());
+		map.put("CD_STATUS_OPERACAO", operacao.getStatus().getCodigoSatus());
+		map.put("DT_OPERACAO", operacao.getDataOpercao());
+		map.put("VL_OPERACAO", operacao.getValor());
+		map.put("CONTA_ORIGEM_ID", operacao.getContaOrigem().getId());
+		map.put("CONTA_DESTINO_ID", operacao.getContaDestino().getId());
 	}
 	
-	
+	/**
+	 * Grava operação
+	 * @param map
+	 * @return id da operacao
+	 */
 	private Long gravarOperacao(Map<String, Object> map) {
         final StringJoiner keys = new StringJoiner(DELIMITER);
         final StringJoiner values = new StringJoiner(DELIMITER);
@@ -133,8 +165,5 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class
         long id = key.longValue();
         LOGGER.info("Inserido operação de id:({})",id);
         return id;
-		
 	}
-	
-
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.hubfintech.controlecontas.contas.TipoPessoa;
 import br.com.hubfintech.controlecontas.daos.PessoaDao;
+import br.com.hubfintech.controlecontas.daos.mappers.PessoaMapper;
 import br.com.hubfintech.controlecontas.pesssoa.Pessoa;
 
 /**

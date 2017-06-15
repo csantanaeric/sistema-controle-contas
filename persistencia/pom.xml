@@ -46,8 +46,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>br.com.hubfintech.controlecontas</groupId>
-			<artifactId>entidades</artifactId>
+			<groupId>br.com.hubfintech.controlecontas.utils</groupId>
+			<artifactId>utils</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

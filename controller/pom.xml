@@ -50,6 +50,11 @@
     		<artifactId>commons-codec</artifactId>
     		<version>1.10</version>
 		</dependency>
+		<dependency>
+			<groupId>br.com.hubfintech.controlecontas</groupId>
+			<artifactId>utils</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

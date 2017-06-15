@@ -1,4 +1,4 @@
-package br.com.hubfintech.controlecontas.daos.impl;
+package br.com.hubfintech.controlecontas.daos.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import br.com.hubfintech.controlecontas.pesssoa.PessoaFisica;
 import br.com.hubfintech.controlecontas.pesssoa.PessoaJuridica;
 
 /**
- * 
+ * Mapeamento dos campos do banco com os atributos das classe entidade Pessoa.
  * @author Eric
  *
  */

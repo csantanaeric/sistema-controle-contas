@@ -18,12 +18,12 @@ import br.com.hubfintech.controlecontas.contas.Saldo;
 import br.com.hubfintech.controlecontas.contas.StatusConta;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasNegocioException;
 import br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao;
-import br.com.hubfintech.controlecontas.controller.util.ControllerUtilitario;
 import br.com.hubfintech.controlecontas.daos.OperacaoDao;
 import br.com.hubfintech.controlecontas.daos.SaldoDao;
 import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
+import br.com.hubfintech.utils.ContasUtils;
 
 /**
  * Classe que encapsula as regras de validação e execuçãodo do aporte
@@ -51,13 +51,13 @@ public class RegrasDeAporte implements RegrasTransacao {
 	public void validar(Transacao transacao) throws RegrasNegocioException {
 		if(transacao.getOperacao() != null && transacao.getOperacao() instanceof Aporte){
 			Aporte aporte = (Aporte) transacao.getOperacao();
-			if(aporte.getConta() == null){
+			if(aporte.getContaDestino() == null){
 				throw new RegrasNegocioException("Operacao não realizada. Conta não informada!");
 			}
-			if(!StatusConta.ATIVA.equals(aporte.getConta().getStatusConta())){
+			if(!StatusConta.ATIVA.equals(aporte.getContaDestino().getStatusConta())){
 				throw new RegrasNegocioException("Operacao não permitida. A conta está ativa!");
 			}
-			if(aporte.getConta().getContaPaiMatriz() != null ){
+			if(aporte.getContaDestino().getContaPaiMatriz() != null ){
 				throw new RegrasNegocioException("Operacao não permitida. A conta de destino não é uma conta matriz!");
 			}
 			if(aporte.getValor() <= 0){
@@ -80,14 +80,14 @@ public class RegrasDeAporte implements RegrasTransacao {
 			LOGGER.error("Falha ao gerar id do aporte.",e);
 			throw new RuntimeException(e);
 		}
-		Conta conta = aporte.getConta();
-		Saldo saldo = ControllerUtilitario.getSaldo(conta.getSaldos());
+		Conta conta = aporte.getContaDestino();
+		Saldo saldo = ContasUtils.getSaldo(conta.getSaldos());
 		Saldo novoSaldo = new Saldo();
 		novoSaldo.setContaId(conta.getId());
 		novoSaldo.setDataAtualizacao(new Date());
 		novoSaldo.setValor(saldo.getValor()+aporte.getValor());
 		saldoDao.inserir(saldo);
-		operacaoDao.inserirOperacao(aporte);
+		operacaoDao.inserirOperacao(transacao, aporte);
 	}
 
 	/**

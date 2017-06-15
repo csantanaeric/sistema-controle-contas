@@ -5,6 +5,8 @@ package br.com.hubfintech.controlecontas.transacao;
 
 import java.util.Date;
 
+import br.com.hubfintech.controlecontas.contas.Conta;
+
 /**
  * Classe que representa um operacao
  * @author Eric
@@ -24,6 +26,15 @@ public abstract class Operacao {
 	/** Tipo operacao  */
 	private TipoOperacao tipoOpercao;
 
+	/** Identificador unico do aporte */
+	private String codigoAporte;
+	
+	/** Conta que sera debitado o valor da operacao */
+	private Conta contaOrigem;
+	
+	/** Conta que sera creditado o valor da operacao */
+	private Conta contaDestino;
+	
 	/**
 	 * @return the valor
 	 */
@@ -66,11 +77,6 @@ public abstract class Operacao {
 		this.dataOpercao = dataOpercao;
 	}
 
-	@Override
-	public String toString() {
-		return "Operacao [valor=" + valor + ", dataOpercao=" + dataOpercao + ", status=" + status + "]";
-	}
-
 	/**
 	 * @return the tipoOpercao
 	 */
@@ -83,6 +89,58 @@ public abstract class Operacao {
 	 */
 	public void setTipoOpercao(TipoOperacao tipoOpercao) {
 		this.tipoOpercao = tipoOpercao;
+	}
+
+	/**
+	 * @return the codigoAporte
+	 */
+	public String getCodigoAporte() {
+		return codigoAporte;
+	}
+
+	/**
+	 * @param codigoAporte the codigoAporte to set
+	 */
+	public void setCodigoAporte(String codigoAporte) {
+		this.codigoAporte = codigoAporte;
+	}
+
+	/**
+	 * @return the contaOrigem
+	 */
+	public Conta getContaOrigem() {
+		return contaOrigem;
+	}
+
+	/**
+	 * @param contaOrigem the contaOrigem to set
+	 */
+	public void setContaOrigem(Conta contaOrigem) {
+		this.contaOrigem = contaOrigem;
+	}
+
+	/**
+	 * @return the contaDestino
+	 */
+	public Conta getContaDestino() {
+		return contaDestino;
+	}
+
+	/**
+	 * @param contaDestino the contaDestino to set
+	 */
+	public void setContaDestino(Conta contaDestino) {
+		this.contaDestino = contaDestino;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Operacao [valor=" + valor + ", dataOpercao=" + dataOpercao + ", status=" + status + ", tipoOpercao="
+				+ tipoOpercao + ", codigoAporte=" + codigoAporte + ", contaOrigem=" + contaOrigem + ", contaDestino="
+				+ contaDestino + "]";
 	}
 	
 }
