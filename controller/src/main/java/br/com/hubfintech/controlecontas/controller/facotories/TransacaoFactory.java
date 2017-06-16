@@ -13,6 +13,7 @@ import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
+import br.com.hubfintech.controlecontas.transacao.TipoOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
@@ -41,10 +42,12 @@ public class TransacaoFactory {
 			transferencia.setContaOrigem(contaOrigem);
 			transferencia.setContaDestino(contaDestino);
 			transferencia.setStatus(StatusOperacao.APROVADO);
+			transferencia.setTipoOperacao(TipoOperacao.TRANSFERENCIA);
 			transacao.setOperacao(transferencia);
 		} else if (request instanceof AporteRequest){
 			AporteRequest aporteRequest = (AporteRequest) request;
 			Aporte aporte = new Aporte();
+			aporte.setTipoOperacao(TipoOperacao.APORTE);
 			aporte.setValor(Double.parseDouble(aporteRequest.getValor()));
 			aporte.setStatus(StatusOperacao.APROVADO);
 			Conta conta = contaDao.encontrarContaPeloNome(aporteRequest.getContaBeneficiada());
@@ -54,6 +57,7 @@ public class TransacaoFactory {
 			 EstornoRequest estornoResquest = (EstornoRequest) request;
 			 transacao =  transacaoDao.encontrarTransacaoPeloId(estornoResquest.getTransacaoId());
 			 Estorno estorno = new Estorno();
+			 estorno.setTipoOperacao(TipoOperacao.ESTORNO);
 			 estorno.setValor(Double.parseDouble(estornoResquest.getValor()));
 			 estorno.setStatus(StatusOperacao.APROVADO);
 			 transacao.setEstorno(estorno);

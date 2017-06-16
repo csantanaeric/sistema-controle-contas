@@ -41,7 +41,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class
 
 	private static final String TABLE_NAME = "OPERACAO";
 
-	private static final String PRIMARY_COLUMN_NAME = "NU_OPERCAO_ID";
+	private static final String PRIMARY_COLUMN_NAME = "NU_OPERACAO_ID";
 	
 	private SimpleJdbcInsert insert;
 	
@@ -63,8 +63,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class
      */
     @Autowired(required = false)
     public OperacaoDaoImpl(final JdbcTemplate jdbcTemplate) {
-        this.template = new NamedParameterJdbcTemplate(jdbcTemplate);
-        this.jdbcTemplate = jdbcTemplate;
+    	this.jdbcTemplate = jdbcTemplate;
+        this.template = new NamedParameterJdbcTemplate(this.jdbcTemplate);
         this.insert = new SimpleJdbcInsert(this.jdbcTemplate).withTableName(TABLE_NAME).usingGeneratedKeyColumns(PRIMARY_COLUMN_NAME);
     }
 	
@@ -140,7 +140,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ContasDaoImpl.class
 	private void populaDadosComum(Transacao transacao, Operacao operacao, Map<String, Object> map ){
 		map.put("CD_APORTE", operacao.getCodigoAporte());
 		map.put("NU_TRANSACAO_ID",transacao.getTransacaoId());
-		map.put("CD_TIPO_OPERACAO", operacao.getTipoOpercao().getCodigoTipoOpercao());
+		map.put("CD_TIPO_OPERACAO", operacao.getTipoOperacao().getCodigoTipoOpercao());
 		map.put("CD_STATUS_OPERACAO", operacao.getStatus().getCodigoSatus());
 		map.put("DT_OPERACAO", operacao.getDataOpercao());
 		map.put("VL_OPERACAO", operacao.getValor());

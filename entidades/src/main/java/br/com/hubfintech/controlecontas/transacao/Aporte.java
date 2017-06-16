@@ -16,7 +16,7 @@ public class Aporte extends Operacao {
 	@Override
 	public String toString() {
 		return "Aporte [getValor()=" + getValor() + ", getStatus()=" + getStatus() + ", getDataOpercao()="
-				+ getDataOpercao() + ", getTipoOpercao()=" + getTipoOpercao() + ", getCodigoAporte()="
+				+ getDataOpercao() + ", getTipoOpercao()=" + getTipoOperacao() + ", getCodigoAporte()="
 				+ getCodigoAporte() + ", getContaOrigem()=" + getContaOrigem() + ", getContaDestino()="
 				+ getContaDestino() + ", toString()=" + super.toString() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + "]";

@@ -14,6 +14,9 @@ import br.com.hubfintech.controlecontas.contas.Conta;
  */
 public abstract class Operacao {
 	
+	/** id da operacao */
+	private Long id;
+	
 	/** valor da operacao */
 	private double valor;
 	
@@ -24,7 +27,7 @@ public abstract class Operacao {
 	private StatusOperacao status;
 	
 	/** Tipo operacao  */
-	private TipoOperacao tipoOpercao;
+	private TipoOperacao tipoOperacao;
 
 	/** Identificador unico do aporte */
 	private String codigoAporte;
@@ -78,17 +81,17 @@ public abstract class Operacao {
 	}
 
 	/**
-	 * @return the tipoOpercao
+	 * @return the tipoOperacao
 	 */
-	public TipoOperacao getTipoOpercao() {
-		return tipoOpercao;
+	public TipoOperacao getTipoOperacao() {
+		return tipoOperacao;
 	}
 
 	/**
-	 * @param tipoOpercao the tipoOpercao to set
+	 * @param tipoOperacao the tipoOperacao to set
 	 */
-	public void setTipoOpercao(TipoOperacao tipoOpercao) {
-		this.tipoOpercao = tipoOpercao;
+	public void setTipoOperacao(TipoOperacao tipoOpercao) {
+		this.tipoOperacao = tipoOpercao;
 	}
 
 	/**
@@ -133,14 +136,30 @@ public abstract class Operacao {
 		this.contaDestino = contaDestino;
 	}
 
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Operacao [valor=" + valor + ", dataOpercao=" + dataOpercao + ", status=" + status + ", tipoOpercao="
-				+ tipoOpercao + ", codigoAporte=" + codigoAporte + ", contaOrigem=" + contaOrigem + ", contaDestino="
-				+ contaDestino + "]";
+		return "Operacao [id=" + id + ", valor=" + valor + ", dataOpercao=" + dataOpercao + ", status=" + status
+				+ ", tipoOperacao=" + tipoOperacao + ", codigoAporte=" + codigoAporte + ", contaOrigem=" + contaOrigem
+				+ ", contaDestino=" + contaDestino + "]";
 	}
+	
+	
 	
 }

@@ -11,8 +11,8 @@ import java.util.Date;
  */
 public class Transacao {
 	
-	/** Indentificado unico da transacao  */
-	private String transacaoId;
+	/** Id da transacao  */
+	private Long transacaoId;
 	
 	/** operacao da transacao  */
 	private Operacao operacao;
@@ -26,14 +26,14 @@ public class Transacao {
 	/**
 	 * @return the transacaoId
 	 */
-	public String getTransacaoId() {
+	public Long getTransacaoId() {
 		return transacaoId;
 	}
 
 	/**
 	 * @param transacaoId the transacaoId to set
 	 */
-	public void setTransacaoId(String transacaoId) {
+	public void setTransacaoId(Long transacaoId) {
 		this.transacaoId = transacaoId;
 	}
 
@@ -65,11 +65,6 @@ public class Transacao {
 		this.operacao = operacao;
 	}
 
-	@Override
-	public String toString() {
-		return "Transacao [transacaoId=" + transacaoId + ", operacao=" + operacao + ", estorno=" + estorno + "]";
-	}
-
 	/**
 	 * @return the data
 	 */
@@ -83,8 +78,14 @@ public class Transacao {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Transacao [transacaoId=" + transacaoId + ", operacao=" + operacao + ", estorno=" + estorno + ", data="
+				+ data + "]";
+	}
 	
 }
-

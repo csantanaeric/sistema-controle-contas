@@ -24,7 +24,7 @@ public class TransacaoMapper implements RowMapper<Transacao> {
 	@Override
 	public Transacao mapRow(ResultSet rs, int position) throws SQLException {
 		Transacao transacao = new Transacao();
-		transacao.setTransacaoId(rs.getString("NU_TRANSACAO_ID"));
+		transacao.setTransacaoId(rs.getLong("NU_TRANSACAO_ID"));
 		transacao.setData(new Date(rs.getTimestamp("DT_TRANSACAO").getTime()));
 		transacao.setOperacao(new Transferencia());
 		return transacao;

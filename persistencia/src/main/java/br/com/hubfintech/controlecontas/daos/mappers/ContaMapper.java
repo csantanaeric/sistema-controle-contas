@@ -3,6 +3,7 @@ package br.com.hubfintech.controlecontas.daos.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.RowMapper;
@@ -40,8 +41,8 @@ public class ContaMapper implements RowMapper<Conta> {
 		conta.setPessoa(pessoaDao.encontrarPessoaPorId(contaPessoaoId, conta.getTipoPessoa()));
 		Long contaPaiId = rs.getLong("CONTA_PAI_ID");
 		Long contaPaiMatrizId = rs.getLong("CONTA_PAI_MATRIZ_ID");
-		conta.setContaPai(contaPaiId == null ? null : new Conta(rs.getLong("CONTA_PAI_ID")) );
-		conta.setContaPaiMatriz(contaPaiMatrizId == null ? null : new Conta(rs.getLong("CONTA_PAI_MATRIZ_ID")) );
+		conta.setContaPai(contaPaiId == null || contaPaiId==0 ? null : new Conta(rs.getLong("CONTA_PAI_ID")) );
+		conta.setContaPaiMatriz(contaPaiMatrizId == null || contaPaiMatrizId==0 ? null : new Conta(rs.getLong("CONTA_PAI_MATRIZ_ID")) );
 		conta.setStatusConta(StatusConta.getStatusConta(rs.getString("STATUS")));
 		conta.setSaldos(saldoDao.buscarListaDeSaldos(conta.getId()));
 		return conta;

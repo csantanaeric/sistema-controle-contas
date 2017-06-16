@@ -88,7 +88,7 @@ public class ContasDaoImpl implements ContasDao{
             	conta.setContaPaiMatriz(this.encontrarContaPeloId(conta.getContaPaiMatriz().getId()));
             }
             if(conta.getContaPai() != null){
-            	conta.setContaPaiMatriz(this.encontrarContaPeloId(conta.getContaPai().getId()));
+            	conta.setContaPai(this.encontrarContaPeloId(conta.getContaPai().getId()));
             }
             return conta;
         } catch (final EmptyResultDataAccessException e) {

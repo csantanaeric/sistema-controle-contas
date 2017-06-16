@@ -68,11 +68,11 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 				throw new  RegrasNegocioException("Operação não realizada. Saldo insuficiente.");
 			}
 			
-			if(transferencia.getContaDestino().getContaPaiMatriz() != null){
+			if(transferencia.getContaDestino().getContaPaiMatriz() == null){
 				throw new  RegrasNegocioException("Operação não permitida. A conta de destino é uma conta Matriz.");
 			}
 			
-			if(transferencia.getContaOrigem().getContaPaiMatriz() != transferencia.getContaDestino().getContaPaiMatriz()){
+			if(transferencia.getContaOrigem().getContaPaiMatriz().getId() != transferencia.getContaDestino().getContaPaiMatriz().getId()){
 				throw new  RegrasNegocioException("Operação não permitida. As contas de origiem e destino não descendem da mesma conta matriz.");
 			}
 		} catch (RegrasNegocioException e) {
@@ -93,15 +93,15 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 		saldoOrigem.setContaId(transferencia.getContaOrigem().getId());
 		saldoOrigem.setDataAtualizacao(new Date());
 		saldoOrigem.setValor(ContasUtils.getSaldo(transferencia.getContaOrigem().getSaldos()).getValor() - transferencia.getValor());
-		saldoDao.inserir(saldoOrigem);
-		transferencia.getContaOrigem().getSaldos().add(saldoOrigem);
+		transferencia.getContaOrigem().getSaldos().add(0, saldoOrigem);
 		Saldo saldoDestino = new Saldo();
 		saldoDestino.setContaId(transferencia.getContaOrigem().getId());
 		saldoDestino.setDataAtualizacao(new Date());
 		saldoDestino.setValor(ContasUtils.getSaldo(transferencia.getContaOrigem().getSaldos()).getValor() + transferencia.getValor());
-		saldoDao.inserir(saldoDestino);
-		transferencia.getContaDestino().getSaldos().add(saldoDestino);
-		transacaoDao.inserirTransacao(transacao);
+		transferencia.getContaDestino().getSaldos().add(0,saldoDestino);
+		saldoDao.inserir(saldoOrigem,saldoDestino);
+		Long transacaoId = transacaoDao.inserirTransacao(transacao);
+		transacao.setTransacaoId(transacaoId);
 		operacaoDao.inserirOperacao(transacao, transferencia);
 	}
 
