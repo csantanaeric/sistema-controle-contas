@@ -7,7 +7,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.jdbc.core.RowMapper;import br.com.hubfintech.controlecontas.transacao.Operacao;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
+import br.com.hubfintech.controlecontas.transacao.Operacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
@@ -16,6 +19,7 @@ import br.com.hubfintech.controlecontas.transacao.Transferencia;
  * @author eric
  *
  */
+@Component
 public class TransacaoMapper implements RowMapper<Transacao> {
 
 	/* (non-Javadoc)
@@ -26,6 +30,7 @@ public class TransacaoMapper implements RowMapper<Transacao> {
 		Transacao transacao = new Transacao();
 		transacao.setTransacaoId(rs.getLong("NU_TRANSACAO_ID"));
 		transacao.setData(new Date(rs.getTimestamp("DT_TRANSACAO").getTime()));
+		transacao.setCodigoAporte(rs.getString("CD_APORTE"));
 		transacao.setOperacao(new Transferencia());
 		return transacao;
 	}

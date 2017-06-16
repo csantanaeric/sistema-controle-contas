@@ -27,6 +27,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
 /**
+ * Implemtenação transação DAO
  * @author eric
  *
  */
@@ -48,7 +49,13 @@ public class TransacaoDaoImpl implements TransacaoDao {
 
 	private static final String PRIMARY_COLUMN_NAME = "NU_TRANSACAO_ID";
 
+
+	private static final String QUERY_ECONTRAR_TRANSACAO_POR_CD_APORTE = "SELECT * FROM TRANSACAO WHERE CD_APORTE = :CD_APORTE";
+
 	private SimpleJdbcInsert insert;
+	
+	@Autowired
+	private TransacaoMapper transacaoMapper;
 	
     /**
      * Construtor que instancia o template baseado no dado datasource
@@ -79,13 +86,33 @@ public class TransacaoDaoImpl implements TransacaoDao {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("NU_TRANSACAO_ID", id);
 		try {
-            return this.template.queryForObject(QUERY_ECONTRAR_TRANSACAO_POR_ID, map, new TransacaoMapper());
+            return this.template.queryForObject(QUERY_ECONTRAR_TRANSACAO_POR_ID, map,transacaoMapper);
         } catch (final EmptyResultDataAccessException e) {
+        	LOGGER.info("Transacao não encontrada {}.",id);
+            return null;
+        }
+	}
+	
+	/* (non-Javadoc)
+	 * @see br.com.hubfintech.controlecontas.daos.TransacaoDao#encontrarTransacaoPeloId(java.lang.String)
+	 */
+	@Override
+	public Transacao encontrarTransacaoCodigoAporte(String codigoAporte) {
+		final Map<String, Object> map = new HashMap<>();
+		map.put("CD_APORTE", codigoAporte);
+		try {
+            return this.template.queryForObject(QUERY_ECONTRAR_TRANSACAO_POR_CD_APORTE, map, transacaoMapper);
+        } catch (final EmptyResultDataAccessException e) {
+        	LOGGER.info("Transacao não encontrada {}.",codigoAporte);
             return null;
         }
 	}
 	
 
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.hubfintech.controlecontas.daos.TransacaoDao#inserirTransacao(br.com.hubfintech.controlecontas.transacao.Transacao)
+	 */
 	@Override
 	public long inserirTransacao(Transacao transacao) {
 		final Map<String, Object> map = new HashMap<>();
@@ -101,19 +128,17 @@ public class TransacaoDaoImpl implements TransacaoDao {
         long id = key.longValue();
         LOGGER.info("Inserido transacao de id:({})",id);
         return id;
-        //this.insert.update("INSERT INTO TRANSACAO(" + keys + ") VALUES (" + values + ")", map);
 	}
 
-
+	/**
+	 * Popula os dados para persistencia da transação	 
+	 * @param transacao
+	 * @param map
+	 */
 	private void popularDadosTransacao(Transacao transacao, Map<String, Object> map) {
 		transacao.setData(new Date());
 		map.put("DT_TRANSACAO", transacao.getData());
-	}
-
-	@Override
-	public void atualizar(Transacao transacao) {
-		// TODO Auto-generated method stub
-		
+		map.put("CD_APORTE", transacao.getCodigoAporte());
 	}
 
 }

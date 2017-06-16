@@ -54,8 +54,7 @@ public class ContasDaoImpl implements ContasDao{
 	@Autowired
 	private ContaMapper contaMapper;
 	
-	
-    /**
+	/**
      * Construtor que instancia o template baseado no dado datasource
      * @param dataSource
      */
@@ -84,12 +83,7 @@ public class ContasDaoImpl implements ContasDao{
 		map.put("NOME", nome);
 		try {
             Conta conta = this.template.queryForObject(QUERY_ECONTRAR_CONTA_POR_NOME, map, contaMapper);
-            if(conta.getContaPaiMatriz() != null){
-            	conta.setContaPaiMatriz(this.encontrarContaPeloId(conta.getContaPaiMatriz().getId()));
-            }
-            if(conta.getContaPai() != null){
-            	conta.setContaPai(this.encontrarContaPeloId(conta.getContaPai().getId()));
-            }
+            this.popularContasPais(conta);
             return conta;
         } catch (final EmptyResultDataAccessException e) {
         	LOGGER.info("Conta não encontrada",e);
@@ -99,6 +93,32 @@ public class ContasDaoImpl implements ContasDao{
 	
 	@Override
 	public Conta encontrarContaPeloId(Long contaPaiId) {
+		Conta conta = this.executarContaPeloId(contaPaiId);
+		this.popularContasPais(conta);
+		return conta;
+	}
+	
+	/**
+	 * Busca e popula contas pais
+	 * @param conta
+	 */
+	private void popularContasPais(Conta conta){
+		if(conta != null){
+			if(conta.getContaPaiMatriz() != null){
+	        	conta.setContaPaiMatriz(this.executarContaPeloId(conta.getContaPaiMatriz().getId()));
+	        }
+	        if(conta.getContaPai() != null){
+	        	conta.setContaPai(this.executarContaPeloId(conta.getContaPai().getId()));
+	        }
+		}
+    }
+	
+	/**
+	 * Executa consulta por id
+	 * @param contaPaiId
+	 * @return
+	 */
+	private Conta executarContaPeloId(Long contaPaiId) {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("CONTA_ID", contaPaiId);
 		try {
@@ -111,20 +131,7 @@ public class ContasDaoImpl implements ContasDao{
 
 	@Override
 	public void inserirConta(Conta conta) {
-//        final StringJoiner keys = new StringJoiner(DELIMITER);
-//        final StringJoiner values = new StringJoiner(DELIMITER);
-//        map.keySet().stream().forEach(key -> {
-//            keys.add(key);
-//            values.add(":" + key);
-//        });
 
-//        this.template.update("INSERT INTO TBSKLR_TRANS_ACCOUNT_VERIFY(" + keys + ") VALUES (" + values + ")", map);
 	}
 
-	@Override
-	public void atualizarSaldo(Conta contas, Double saldo) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

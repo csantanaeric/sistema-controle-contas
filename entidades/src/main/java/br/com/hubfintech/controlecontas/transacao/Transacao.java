@@ -20,6 +20,9 @@ public class Transacao {
 	/** operacao de estorno  */
 	private Estorno estorno;
 	
+	/** Identificador unico do aporte */
+	private String codigoAporte;
+	
 	/** data da transacao  */
 	private Date data;
 
@@ -79,13 +82,27 @@ public class Transacao {
 		this.data = data;
 	}
 
+	/**
+	 * @return the codigoAporte
+	 */
+	public String getCodigoAporte() {
+		return codigoAporte;
+	}
+
+	/**
+	 * @param codigoAporte the codigoAporte to set
+	 */
+	public void setCodigoAporte(String codigoAporte) {
+		this.codigoAporte = codigoAporte;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Transacao [transacaoId=" + transacaoId + ", operacao=" + operacao + ", estorno=" + estorno + ", data="
-				+ data + "]";
+		return "Transacao [transacaoId=" + transacaoId + ", operacao=" + operacao + ", estorno=" + estorno
+				+ ", codigoAporte=" + codigoAporte + ", data=" + data + "]";
 	}
 	
 }

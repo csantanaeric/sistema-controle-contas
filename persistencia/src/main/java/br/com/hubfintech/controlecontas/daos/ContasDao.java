@@ -33,12 +33,4 @@ public interface ContasDao {
 	 */
 	public Conta encontrarContaPeloId(Long contaPaiId);
 
-	/**
-	 * Atualiza saldo da conta
-	 * @param contas
-	 */
-	void atualizarSaldo(Conta contas, Double saldo);
-
-	
-
 }

@@ -31,6 +31,14 @@ public class TransacaoRecurso {
 	@Autowired
 	private Processador processador;
 	
+	@RequestMapping(path ="/gerarEstorno", method = RequestMethod.POST)
+	public ResponseEntity<Request> gerarEstorno(@RequestBody TransferenciaRequest request){
+		EstornoRequest estornoRequest = new EstornoRequest();
+		estornoRequest.setCodigoAporte("e25fe2f1e40a74c43a09bf2937611ab4");
+		estornoRequest.setValor("0.0");
+		return new ResponseEntity<>(estornoRequest ,HttpStatus.OK);
+	}
+	
 	@RequestMapping(path ="/transferir", method = RequestMethod.POST)
 	public ResponseEntity<Response> transferir(@RequestBody TransferenciaRequest request){
 		return this.executar(request); 
@@ -59,6 +67,8 @@ public class TransacaoRecurso {
 			response.setStatus(operacao.getStatus().toString());
 			response.setMensagem(mensagem);
 			response.setValor(Double.toString(operacao.getValor()));
+			response.setCodigoAporte(transacao.getCodigoAporte());
+			response.setCdTransacao(transacao.getTransacaoId());
 		}
 		request.setResponse(response);
 	}

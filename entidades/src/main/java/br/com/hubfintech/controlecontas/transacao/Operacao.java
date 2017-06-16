@@ -29,9 +29,6 @@ public abstract class Operacao {
 	/** Tipo operacao  */
 	private TipoOperacao tipoOperacao;
 
-	/** Identificador unico do aporte */
-	private String codigoAporte;
-	
 	/** Conta que sera debitado o valor da operacao */
 	private Conta contaOrigem;
 	
@@ -95,20 +92,6 @@ public abstract class Operacao {
 	}
 
 	/**
-	 * @return the codigoAporte
-	 */
-	public String getCodigoAporte() {
-		return codigoAporte;
-	}
-
-	/**
-	 * @param codigoAporte the codigoAporte to set
-	 */
-	public void setCodigoAporte(String codigoAporte) {
-		this.codigoAporte = codigoAporte;
-	}
-
-	/**
 	 * @return the contaOrigem
 	 */
 	public Conta getContaOrigem() {
@@ -156,10 +139,8 @@ public abstract class Operacao {
 	@Override
 	public String toString() {
 		return "Operacao [id=" + id + ", valor=" + valor + ", dataOpercao=" + dataOpercao + ", status=" + status
-				+ ", tipoOperacao=" + tipoOperacao + ", codigoAporte=" + codigoAporte + ", contaOrigem=" + contaOrigem
-				+ ", contaDestino=" + contaDestino + "]";
+				+ ", tipoOperacao=" + tipoOperacao + ", contaOrigem=" + contaOrigem + ", contaDestino=" + contaDestino
+				+ ", toString()=" + super.toString() + "]";
 	}
-	
-	
-	
+
 }

@@ -14,6 +14,7 @@ import br.com.hubfintech.controlecontas.controller.regras.RegrasNegocioException
 import br.com.hubfintech.controlecontas.controller.regras.RegrasTransacao;
 import br.com.hubfintech.controlecontas.daos.OperacaoDao;
 import br.com.hubfintech.controlecontas.daos.SaldoDao;
+import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
@@ -31,7 +32,11 @@ public class RegrasDeEstorno implements RegrasTransacao {
 	@Autowired
 	private OperacaoDao operacaoDao;
 	
+	@Autowired
 	private SaldoDao saldoDao;
+	
+	@Autowired
+	private TransacaoDao transacaoDao;
 	
 	Conta conta = null;
 	Conta contaOrigem = null;
@@ -54,7 +59,7 @@ public class RegrasDeEstorno implements RegrasTransacao {
 		
 		if(transacao.getOperacao() instanceof Aporte){
 			aporte =  (Aporte) transacao.getOperacao();
-			if(aporte.getCodigoAporte() == null){
+			if(transacao.getCodigoAporte() == null){
 				throw new RegrasNegocioException("Operação não permitida. Codigo aporte não informado.");
 			}
 			conta = aporte.getContaDestino();
@@ -91,6 +96,8 @@ public class RegrasDeEstorno implements RegrasTransacao {
 		saldoDao.inserir(saldo,saldoContaOrigem);
 		
 		operacaoDao.inserirOperacao(transacao, estorno);
+		
+		transacaoDao.inserirTransacao(transacao);
 	}
 
 }

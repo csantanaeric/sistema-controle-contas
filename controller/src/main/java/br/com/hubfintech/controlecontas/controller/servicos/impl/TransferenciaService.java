@@ -27,12 +27,6 @@ public class TransferenciaService implements OperacaoService {
 	@Autowired
 	@Qualifier("regrasDeTransferencia")
 	private RegrasDeTransferencia regra;
-	
-	@Autowired
-	private TransacaoDao transacaoDao;
-	
-	@Autowired
-	private SaldoDao saldoDao;
 
 	/* (non-Javadoc)
 	 * @see br.com.hubfintech.controlecontas.controller.servicos.Service#execute(br.com.hubfintech.controlecontas.transacao.Transacao)
@@ -45,8 +39,6 @@ public class TransferenciaService implements OperacaoService {
 			throw e;
 		}
 		regra.executarOperacao(transacao);
-		
-		transacaoDao.inserirTransacao(transacao);
 		
 		return transacao;
 	}

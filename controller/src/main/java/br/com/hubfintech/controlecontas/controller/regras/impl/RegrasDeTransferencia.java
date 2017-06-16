@@ -88,14 +88,13 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 	@Override
 	public void executarOperacao(Transacao transacao) throws RegrasNegocioException {
 		Transferencia transferencia = (Transferencia) transacao.getOperacao();
-		transferencia.setDataOpercao(new Date());
 		Saldo saldoOrigem = new Saldo();
 		saldoOrigem.setContaId(transferencia.getContaOrigem().getId());
 		saldoOrigem.setDataAtualizacao(new Date());
 		saldoOrigem.setValor(ContasUtils.getSaldo(transferencia.getContaOrigem().getSaldos()).getValor() - transferencia.getValor());
 		transferencia.getContaOrigem().getSaldos().add(0, saldoOrigem);
 		Saldo saldoDestino = new Saldo();
-		saldoDestino.setContaId(transferencia.getContaOrigem().getId());
+		saldoDestino.setContaId(transferencia.getContaDestino().getId());
 		saldoDestino.setDataAtualizacao(new Date());
 		saldoDestino.setValor(ContasUtils.getSaldo(transferencia.getContaOrigem().getSaldos()).getValor() + transferencia.getValor());
 		transferencia.getContaDestino().getSaldos().add(0,saldoDestino);

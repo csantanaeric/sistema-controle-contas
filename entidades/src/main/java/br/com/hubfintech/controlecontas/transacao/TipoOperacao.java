@@ -18,6 +18,20 @@ public enum TipoOperacao {
 	}
 
 	/**
+	 * Pega o tipo de operação a partir do valor.
+	 * @param cdTipoOpercao
+	 * @return
+	 */
+	public static TipoOperacao getTipoOperacao(int cdTipoOpercao){
+		 for (TipoOperacao tipoOperacao : TipoOperacao.values()) {
+		      if (tipoOperacao.getCodigoTipoOpercao() == cdTipoOpercao) {
+		        return tipoOperacao;
+		      }
+		    }
+		    return null;
+	}
+
+	/**
 	 * @return the codigoTipoOpercao
 	 */
 	public int getCodigoTipoOpercao() {
@@ -29,8 +43,6 @@ public enum TipoOperacao {
 	 */
 	public void setCodigoTipoOpercao(int codigoTipoOpercao) {
 		this.codigoTipoOpercao = codigoTipoOpercao;
-	}
-	
-	
+	}	
 
 }

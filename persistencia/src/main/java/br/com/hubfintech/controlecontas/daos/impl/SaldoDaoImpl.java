@@ -27,8 +27,8 @@ import br.com.hubfintech.controlecontas.daos.SaldoDao;
 import br.com.hubfintech.controlecontas.daos.mappers.SaldoMapper;
 
 /**
+ * Implementação da classe de persistencia Saldo
  * @author eric
- *
  */
 @Component
 public class SaldoDaoImpl implements SaldoDao {
@@ -110,14 +110,16 @@ public class SaldoDaoImpl implements SaldoDao {
 		map.put("DH_ATUALIZACAO", saldo.getDataAtualizacao());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see br.com.hubfintech.controlecontas.daos.SaldoDao#buscarListaDeSaldos(java.lang.Long)
+	 */
 	@Override
 	public List<Saldo> buscarListaDeSaldos(Long contaId) {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("CONTA_ID", contaId);
 		try {
 			return jdbcTemplate.query(QUERY_ECONTRAR_SALDOS, new Object [] {contaId}, new int[]{ Types.NUMERIC}, saldoMapper);
-//			List<Saldo> saldos  = jdbcTemplate.query(QUERY_ECONTRAR_SALDOS,	new BeanPropertyRowMapper(Saldo.class));
-//			return saldos;
         } catch (final EmptyResultDataAccessException e) {
             LOGGER.info("Saldo não encontrada",e);
             return new ArrayList<>();

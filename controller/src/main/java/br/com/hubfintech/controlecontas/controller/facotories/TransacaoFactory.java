@@ -1,5 +1,7 @@
 package br.com.hubfintech.controlecontas.controller.facotories;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,9 +11,11 @@ import br.com.hubfintech.controlecontas.controller.dto.EstornoRequest;
 import br.com.hubfintech.controlecontas.controller.dto.Request;
 import br.com.hubfintech.controlecontas.controller.dto.TransferenciaRequest;
 import br.com.hubfintech.controlecontas.daos.ContasDao;
+import br.com.hubfintech.controlecontas.daos.OperacaoDao;
 import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
+import br.com.hubfintech.controlecontas.transacao.Operacao;
 import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
 import br.com.hubfintech.controlecontas.transacao.TipoOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
@@ -30,6 +34,9 @@ public class TransacaoFactory {
 	
 	@Autowired
 	private TransacaoDao transacaoDao;
+	
+	@Autowired
+	private OperacaoDao operacaoDao;
 
 	public  Transacao create(Request request) {
 		Transacao transacao = new Transacao();
@@ -43,6 +50,7 @@ public class TransacaoFactory {
 			transferencia.setContaDestino(contaDestino);
 			transferencia.setStatus(StatusOperacao.APROVADO);
 			transferencia.setTipoOperacao(TipoOperacao.TRANSFERENCIA);
+			transferencia.setDataOpercao(new Date());
 			transacao.setOperacao(transferencia);
 		} else if (request instanceof AporteRequest){
 			AporteRequest aporteRequest = (AporteRequest) request;
@@ -52,15 +60,24 @@ public class TransacaoFactory {
 			aporte.setStatus(StatusOperacao.APROVADO);
 			Conta conta = contaDao.encontrarContaPeloNome(aporteRequest.getContaBeneficiada());
 			aporte.setContaDestino(conta);
+			aporte.setDataOpercao(new Date());
 			transacao.setOperacao(aporte);
 		 } else if (request instanceof EstornoRequest){
 			 EstornoRequest estornoResquest = (EstornoRequest) request;
-			 transacao =  transacaoDao.encontrarTransacaoPeloId(estornoResquest.getTransacaoId());
+			 transacao =  transacaoDao.encontrarTransacaoCodigoAporte(estornoResquest.getCodigoAporte());
+			 if(transacao == null){
+				 return null;
+			 }
+			 Operacao operacao = operacaoDao.encontrarOperacaoPorTransacaoId(transacao.getTransacaoId());
+			 operacao.setContaDestino(contaDao.encontrarContaPeloId(operacao.getContaDestino() == null ? null : operacao.getContaDestino().getId()));
+			 operacao.setContaOrigem(contaDao.encontrarContaPeloId(operacao.getContaOrigem() == null ? null : operacao.getContaOrigem().getId()));
+			 transacao.setOperacao(operacao);
 			 Estorno estorno = new Estorno();
 			 estorno.setTipoOperacao(TipoOperacao.ESTORNO);
 			 estorno.setValor(Double.parseDouble(estornoResquest.getValor()));
 			 estorno.setStatus(StatusOperacao.APROVADO);
-			 transacao.setEstorno(estorno);
+			 estorno.setDataOpercao(new Date());
+			 transacao.setEstorno(estorno); 
 		 }
 		return transacao;
 	}

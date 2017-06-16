@@ -9,23 +9,23 @@ package br.com.hubfintech.controlecontas.controller.dto;
 public class EstornoRequest extends Request {
 	
 	/**  identificados da transacao que esta sendo solicitado o estorno */
-	private String transacaoId;
+	private String codigoAporte;
 	
 	/** valor do estorno */
 	private String valor;
 
 	/**
-	 * @return the transacaoId
+	 * @return the codigoAporte
 	 */
-	public String getTransacaoId() {
-		return transacaoId;
+	public String getCodigoAporte() {
+		return codigoAporte;
 	}
 
 	/**
-	 * @param transacaoId the transacaoId to set
+	 * @param codigoAporte the codigoAporte to set
 	 */
-	public void setTransacaoId(String transacaoId) {
-		this.transacaoId = transacaoId;
+	public void setCodigoAporte(String transacaoId) {
+		this.codigoAporte = transacaoId;
 	}
 
 	/**

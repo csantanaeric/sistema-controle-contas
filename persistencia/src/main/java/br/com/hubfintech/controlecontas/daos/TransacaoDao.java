@@ -26,11 +26,10 @@ public interface TransacaoDao {
 	long inserirTransacao(Transacao transacao);
 
 	/**
-	 * atualizar transacao
-	 * @param transacao
+	 * busca transacao pelo código do aporte
+	 * @param codigoAporte
+	 * @return Transacao
 	 */
-	public void atualizar(Transacao transacao);
-		
+	Transacao encontrarTransacaoCodigoAporte(String codigoAporte);
 	
-
 }

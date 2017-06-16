@@ -7,20 +7,20 @@ package br.com.hubfintech.controlecontas.controller.dto;
  */
 public class Response {
 	
-	/**
-	 * status da operacao
-	 */
+	/** status da operacao */
 	private String status;
 	
-	/**
-	 * mensagem de retorno
-	 */
+	/** mensagem de retorno */
 	private String mensagem;
 	
-	/**
-	 * valor da operacao
-	 */
+	/** valor da operacao */
 	private String valor;
+	
+	/** codigo do aporte */
+	private String codigoAporte;
+	
+	/** codigo da transacao */
+	private Long cdTransacao;
 
 	/**
 	 * @return the status
@@ -62,6 +62,34 @@ public class Response {
 	 */
 	public void setValor(String valor) {
 		this.valor = valor;
+	}
+
+	/**
+	 * @return the codigoAporte
+	 */
+	public String getCodigoAporte() {
+		return codigoAporte;
+	}
+
+	/**
+	 * @param codigoAporte the codigoAporte to set
+	 */
+	public void setCodigoAporte(String codigoAporte) {
+		this.codigoAporte = codigoAporte;
+	}
+
+	/**
+	 * @return the cdTransacao
+	 */
+	public Long getCdTransacao() {
+		return cdTransacao;
+	}
+
+	/**
+	 * @param cdTransacao the cdTransacao to set
+	 */
+	public void setCdTransacao(Long cdTransacao) {
+		this.cdTransacao = cdTransacao;
 	}
 
 }

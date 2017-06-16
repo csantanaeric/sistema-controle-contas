@@ -73,20 +73,21 @@ public class RegrasDeAporte implements RegrasTransacao {
 	@Override
 	public void executarOperacao(Transacao transacao) throws RegrasNegocioException {
 		Aporte aporte = (Aporte) transacao.getOperacao();
-		long transacaoId =  transacaoDao.inserirTransacao(transacao);
 		try {
-			aporte.setCodigoAporte(this.gerarAporteId(transacaoId));
+			transacao.setCodigoAporte(this.gerarAporteId( aporte.getContaDestino().getNome() ));
 		} catch (NoSuchAlgorithmException e) {
 			LOGGER.error("Falha ao gerar id do aporte.",e);
 			throw new RuntimeException(e);
 		}
+		long transacaoId =  transacaoDao.inserirTransacao(transacao);
+		transacao.setTransacaoId(transacaoId);
 		Conta conta = aporte.getContaDestino();
 		Saldo saldo = ContasUtils.getSaldo(conta.getSaldos());
 		Saldo novoSaldo = new Saldo();
 		novoSaldo.setContaId(conta.getId());
 		novoSaldo.setDataAtualizacao(new Date());
 		novoSaldo.setValor(saldo.getValor()+aporte.getValor());
-		saldoDao.inserir(saldo);
+		saldoDao.inserir(novoSaldo);
 		operacaoDao.inserirOperacao(transacao, aporte);
 	}
 
@@ -96,8 +97,8 @@ public class RegrasDeAporte implements RegrasTransacao {
 	 * @return id unico
 	 * @throws NoSuchAlgorithmException
 	 */
-	private String gerarAporteId(long transacaoid) throws NoSuchAlgorithmException {
-		String id = Long.toString(new Date().getTime())+transacaoid;
+	private String gerarAporteId(String nomeConta) throws NoSuchAlgorithmException {
+		String id = Long.toString(new Date().getTime())+nomeConta;
 		return new String(Hex.encodeHex(MessageDigest.getInstance("MD5").digest(id.getBytes())));
 	}
 }
