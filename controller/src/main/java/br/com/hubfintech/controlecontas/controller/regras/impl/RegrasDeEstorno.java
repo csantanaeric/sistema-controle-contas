@@ -97,7 +97,7 @@ public class RegrasDeEstorno implements RegrasTransacao {
 		
 		operacaoDao.inserirOperacao(transacao, estorno);
 		
-		transacaoDao.inserirTransacao(transacao);
+		
 	}
 
 }

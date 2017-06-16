@@ -3,33 +3,26 @@
  */
 package br.com.hubfintech.controlecontas.daos.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
-import br.com.hubfintech.controlecontas.contas.Conta;
 import br.com.hubfintech.controlecontas.daos.OperacaoDao;
-import br.com.hubfintech.controlecontas.daos.mappers.EstornoMapper;
+import br.com.hubfintech.controlecontas.daos.mappers.OperacaoMapper;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.Operacao;
-import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
-import br.com.hubfintech.controlecontas.transacao.TipoOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 
@@ -56,9 +49,6 @@ public class OperacaoDaoImpl implements OperacaoDao {
 	private static final String QUERY_ECONTRAR_TRANSACAO_POR_ID = " SELECT * FROM OPERACAO WHERE NU_TRANSACAO_ID = :NU_TRANSACAO_ID  ";
 
 	private SimpleJdbcInsert insert;
-
-	@Autowired
-	private EstornoMapper estornoMapper;
 
 	@Autowired
 	private OperacaoMapper operacaoMapper;
@@ -181,7 +171,7 @@ public class OperacaoDaoImpl implements OperacaoDao {
 		map.put("DT_OPERACAO", operacao.getDataOpercao());
 		map.put("VL_OPERACAO", operacao.getValor());
 		map.put("CONTA_ORIGEM_ID", operacao.getContaOrigem() == null ? null : operacao.getContaOrigem().getId());
-		map.put("CONTA_DESTINO_ID", operacao.getContaDestino().getId());
+		map.put("CONTA_DESTINO_ID", operacao.getContaDestino() == null ? null : operacao.getContaDestino().getId());
 	}
 
 	/**
@@ -221,52 +211,8 @@ public class OperacaoDaoImpl implements OperacaoDao {
 		}
 	}
 
-	/**
-	 * @author Eric
-	 *
-	 */
-	@Component
-	public class OperacaoMapper implements RowMapper<Operacao> {
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet,
-		 * int)
-		 */
-		@Override
-		public Operacao mapRow(ResultSet rs, int rowNum) throws SQLException {
-			TipoOperacao tipoOperacao = TipoOperacao
-					.getTipoOperacao(Integer.getInteger(rs.getString("CD_TIPO_OPERACAO")));
-			Operacao operacao = this.getInstanciaOperacao(tipoOperacao);
-			operacao.setId(rs.getLong("NU_OPERACAO_ID"));
-			String status = rs.getString("CD_STATUS_OPERACAO");
-			operacao.setStatus(StatusOperacao.NEGADO.getCodigoSatus().equals(status) || StringUtils.isBlank(status)
-					? StatusOperacao.NEGADO : StatusOperacao.APROVADO);
-			operacao.setTipoOperacao(tipoOperacao);
-			operacao.setDataOpercao(rs.getDate("DT_OPERACAO"));
-			operacao.setValor(rs.getDouble("VL_OPERACAO"));
-			Long contaDestinoId = rs.getLong("CONTA_DESTINO_ID");
-			Long contaOrigemId = rs.getLong("CONTA_ORIGEM_ID");
-			operacao.setContaDestino(contaDestinoId != null ? new Conta(contaDestinoId) : null);
-			operacao.setContaOrigem(contaOrigemId != null ? new Conta(contaOrigemId) : null);
-			return operacao;
-		}
 
-		private Operacao getInstanciaOperacao(TipoOperacao tipoOperacao) {
-			switch (tipoOperacao) {
-			case TRANSFERENCIA:
-				return new Transferencia();
-			case APORTE:
-				return new Aporte();
-			case ESTORNO:
-				return new Estorno();
-			default:
-				return null;
-			}
-		}
 
-	}
 
 }
