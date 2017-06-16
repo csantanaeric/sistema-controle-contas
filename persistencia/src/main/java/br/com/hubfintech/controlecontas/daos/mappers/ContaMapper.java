@@ -3,7 +3,6 @@ package br.com.hubfintech.controlecontas.daos.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,7 +13,6 @@ import br.com.hubfintech.controlecontas.contas.StatusConta;
 import br.com.hubfintech.controlecontas.contas.TipoPessoa;
 import br.com.hubfintech.controlecontas.daos.PessoaDao;
 import br.com.hubfintech.controlecontas.daos.SaldoDao;
-import br.com.hubfintech.utils.ContasUtils;
 
 /**
  * Mapeamento dos campos do banco com os atributos das classe entidade Saldo.

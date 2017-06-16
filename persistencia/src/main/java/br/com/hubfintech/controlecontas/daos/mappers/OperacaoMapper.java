@@ -6,7 +6,7 @@ package br.com.hubfintech.controlecontas.daos.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +39,7 @@ public class OperacaoMapper implements RowMapper<Operacao> {
 		if(operacao != null){
 			operacao.setId(rs.getLong("NU_OPERACAO_ID"));
 			String status = rs.getString("CD_STATUS_OPERACAO");
-			operacao.setStatus(StatusOperacao.NEGADO.getCodigoSatus().equals(status) || StringUtils.isBlank(status)
+			operacao.setStatus(StatusOperacao.NEGADO.getCodigoSatus().equals(status) ||StringUtils.isBlank(status)
 					? StatusOperacao.NEGADO : StatusOperacao.APROVADO);
 			operacao.setTipoOperacao(tipoOperacao);
 			operacao.setDataOpercao(rs.getDate("DT_OPERACAO"));

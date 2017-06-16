@@ -33,7 +33,7 @@ public class PersistenciaApplicationTests {
 	@Autowired
 	private SaldoDao saldoDao;
 	
-	@Test @Ignore
+	@Test 
 	public void testeInsereEConsultaTransacao() {
 		Transacao transacao = new Transacao();
 		long id = transacaoDao.inserirTransacao(transacao);
@@ -42,7 +42,7 @@ public class PersistenciaApplicationTests {
 		assertNotNull("Transacao deveria ser encontrado.",transacao);
 	}
 	
-	@Test @Ignore 
+	@Test  
 	public void testeConsultaConta(){
 		Conta conta = contasDao.encontrarContaPeloNome("121");
 		assertNotNull("Conta de nome 121 deveria ser encontrado.",conta);

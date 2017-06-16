@@ -30,7 +30,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ComponentScan(basePackageClasses = {RegrasTransacao.class,OperacaoService.class,Processador.class,TransacaoFactory.class, TransacaoDao.class, ContasDao.class })
+@ComponentScan(basePackageClasses = {RegrasTransacao.class,OperacaoService.class,Processador.class,TransacaoFactory.class, TransacaoDao.class, ContasDao.class,SpringRootConfig.class })
 public class ControllerApplicationTests {
 
 	@Autowired

@@ -23,7 +23,8 @@ import br.com.hubfintech.controlecontas.daos.SaldoDao;
 import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
-import br.com.hubfintech.utils.ContasUtils;
+import br.com.hubfintech.controlecontas.utils.ContasUtils;
+
 
 /**
  * Classe que encapsula as regras de validação e execuçãodo do aporte

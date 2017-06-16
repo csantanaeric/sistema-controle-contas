@@ -20,7 +20,9 @@ import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
-import br.com.hubfintech.utils.ContasUtils;
+import br.com.hubfintech.controlecontas.utils.ContasUtils;
+
+
 
 /**
  * Classe que encapsula as regras de validação e execuçãodo de tranferencia

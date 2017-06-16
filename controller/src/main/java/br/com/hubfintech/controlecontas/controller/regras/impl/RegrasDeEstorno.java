@@ -19,7 +19,8 @@ import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
-import br.com.hubfintech.utils.ContasUtils;
+import br.com.hubfintech.controlecontas.utils.ContasUtils;
+
 
 /**
  * Classe que encapsula as regras de validação e execuçãodo do estorno

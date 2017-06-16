@@ -1,17 +1,17 @@
 /**
  * 
  */
-package br.com.hubfintech.utils;
+package br.com.hubfintech.controlecontas.utils;
 
 import java.util.List;
 
 import br.com.hubfintech.controlecontas.contas.Saldo;
 
 /**
- * @author Eric
+ * @author eric
  *
  */
-public  class ContasUtils {
+public class ContasUtils {
 	
 	private ContasUtils(){
 		
