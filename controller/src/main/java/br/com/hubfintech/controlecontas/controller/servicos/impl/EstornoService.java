@@ -20,7 +20,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
  * @author Eric
  *
  */
-@Service
+@Service("estornoService")
 public class EstornoService implements OperacaoService {
 	
 	@Autowired
@@ -32,13 +32,11 @@ public class EstornoService implements OperacaoService {
 	 */
 	@Override
 	public Transacao execute(Transacao transacao) throws RegrasNegocioException {
-		
 		try {
 			regrasDeEstorno.executarOperacao(transacao);
 		} catch (RegrasNegocioException e) {
 			throw e;
 		}
-		
 		return transacao;
 	}
 

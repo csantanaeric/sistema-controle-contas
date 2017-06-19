@@ -21,7 +21,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
  * @author Eric
  *
  */
-@Service
+@Service("transferenciaService")
 public class TransferenciaService implements OperacaoService {
 	
 	@Autowired

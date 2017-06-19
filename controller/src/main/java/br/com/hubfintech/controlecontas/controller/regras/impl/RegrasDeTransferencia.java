@@ -100,6 +100,7 @@ public class RegrasDeTransferencia implements RegrasTransacao {
 		saldoDestino.setDataAtualizacao(new Date());
 		saldoDestino.setValor(ContasUtils.getSaldo(transferencia.getContaOrigem().getSaldos()).getValor() + transferencia.getValor());
 		transferencia.getContaDestino().getSaldos().add(0,saldoDestino);
+		transferencia.setStatus(StatusOperacao.APROVADO);
 		saldoDao.inserir(saldoOrigem,saldoDestino);
 		Long transacaoId = transacaoDao.inserirTransacao(transacao);
 		transacao.setTransacaoId(transacaoId);

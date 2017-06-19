@@ -17,6 +17,7 @@ import br.com.hubfintech.controlecontas.daos.SaldoDao;
 import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
 import br.com.hubfintech.controlecontas.transacao.Estorno;
+import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.transacao.Transferencia;
 import br.com.hubfintech.controlecontas.utils.ContasUtils;
@@ -58,6 +59,10 @@ public class RegrasDeEstorno implements RegrasTransacao {
 			throw new RegrasNegocioException("Transação não encontrada para estorno.");
 		}
 		
+		if(StatusOperacao.APROVADO.equals(estorno.getStatus())){
+			throw new RegrasNegocioException("Operação não permitida. Transação já estornada.");
+		}
+		
 		if(transacao.getOperacao() instanceof Aporte){
 			aporte =  (Aporte) transacao.getOperacao();
 			if(transacao.getCodigoAporte() == null){
@@ -97,8 +102,6 @@ public class RegrasDeEstorno implements RegrasTransacao {
 		saldoDao.inserir(saldo,saldoContaOrigem);
 		
 		operacaoDao.inserirOperacao(transacao, estorno);
-		
-		
 	}
 
 }

@@ -5,6 +5,7 @@ package br.com.hubfintech.controlecontas.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -46,10 +47,10 @@ public interface OperacaoDao {
 	Long inserirOperacao(Transacao transacao, Aporte aporte);
 
 	/**
-	 * Busca operacao pelo id da Transação
+	 * Busca operações pelo id da Transação
 	 * @param transacaoId
 	 * @return the operacação
 	 */
-	Operacao encontrarOperacaoPorTransacaoId(Long transacaoId);
+	List<Operacao> encontrarOperacaoPorTransacaoId(Long transacaoId);
 	
 }

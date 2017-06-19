@@ -2,7 +2,7 @@ package br.com.hubfintech.controlecontas.transacao;
 
 public enum StatusOperacao {
 	
-	APROVADO("A"),NEGADO("N");
+	EXECUTANDO("E"),APROVADO("A"),NEGADO("N");
 	
 	private String codigoSatus;
 

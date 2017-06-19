@@ -4,6 +4,7 @@
 package br.com.hubfintech.controlecontas.daos.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -200,11 +201,12 @@ public class OperacaoDaoImpl implements OperacaoDao {
 	}
 
 	@Override
-	public Operacao encontrarOperacaoPorTransacaoId(Long transacaoId) {
+	public List<Operacao> encontrarOperacaoPorTransacaoId(Long transacaoId) {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("NU_TRANSACAO_ID", transacaoId);
 		try {
-			return this.template.queryForObject(QUERY_ECONTRAR_TRANSACAO_POR_ID, map, operacaoMapper);
+			//return this.template.queryForObject(QUERY_ECONTRAR_TRANSACAO_POR_ID, map, operacaoMapper);
+			return template.query(QUERY_ECONTRAR_TRANSACAO_POR_ID, map, operacaoMapper);
 		} catch (final EmptyResultDataAccessException e) {
 			LOGGER.info("Conta não encontrada", e);
 			return null;

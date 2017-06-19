@@ -20,7 +20,7 @@ import br.com.hubfintech.controlecontas.transacao.Transacao;
  * @author Eric
  *
  */
-@Service
+@Service("aporteService")
 public class AporteService implements OperacaoService {
 	
 	@Autowired

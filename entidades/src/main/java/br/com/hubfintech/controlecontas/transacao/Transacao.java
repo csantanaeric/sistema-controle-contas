@@ -25,6 +25,16 @@ public class Transacao {
 	
 	/** data da transacao  */
 	private Date data;
+	
+	public Transacao() {}
+
+	public Transacao(Long transacaoId, Operacao operacao, Estorno estorno, String codigoAporte, Date data) {
+		this.transacaoId = transacaoId;
+		this.operacao = operacao;
+		this.estorno = estorno;
+		this.codigoAporte = codigoAporte;
+		this.data = data;
+	}
 
 	/**
 	 * @return the transacaoId

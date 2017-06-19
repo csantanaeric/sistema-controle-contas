@@ -22,6 +22,7 @@ import br.com.hubfintech.controlecontas.daos.OperacaoDao;
 import br.com.hubfintech.controlecontas.daos.SaldoDao;
 import br.com.hubfintech.controlecontas.daos.TransacaoDao;
 import br.com.hubfintech.controlecontas.transacao.Aporte;
+import br.com.hubfintech.controlecontas.transacao.StatusOperacao;
 import br.com.hubfintech.controlecontas.transacao.Transacao;
 import br.com.hubfintech.controlecontas.utils.ContasUtils;
 
@@ -88,6 +89,7 @@ public class RegrasDeAporte implements RegrasTransacao {
 		novoSaldo.setContaId(conta.getId());
 		novoSaldo.setDataAtualizacao(new Date());
 		novoSaldo.setValor(saldo.getValor()+aporte.getValor());
+		aporte.setStatus(StatusOperacao.APROVADO);
 		saldoDao.inserir(novoSaldo);
 		operacaoDao.inserirOperacao(transacao, aporte);
 	}

@@ -80,8 +80,7 @@ public class SaldoDaoImpl implements SaldoDao {
 	 * @see br.com.hubfintech.controlecontas.daos.SaldoDao#inserir()
 	 */
 	@Override
-	public List<Saldo> inserir(Saldo... saldos) {
-		List<Saldo> listaSaldo = new ArrayList<>();
+	public void inserir(Saldo... saldos) {
 		for(Saldo saldo : saldos){
 			if(saldo == null){
 				continue;
@@ -99,9 +98,7 @@ public class SaldoDaoImpl implements SaldoDao {
 			long id = key.longValue();
 			saldo.setId(id);
 			LOGGER.info("Inserido conta de id:({})", id);
-			listaSaldo.add(saldo);
 		}
-		return listaSaldo;
 	}
 
 	private void popularDadosSaldo(Saldo saldo, Map<String, Object> map) {

@@ -35,6 +35,32 @@ public abstract class Operacao {
 	/** Conta que sera creditado o valor da operacao */
 	private Conta contaDestino;
 	
+	public Operacao(){}
+	
+	
+	/**
+	 * Construtor utilizado nos teste unitarios.
+	 * @param id
+	 * @param valor
+	 * @param dataOpercao
+	 * @param status
+	 * @param tipoOperacao
+	 * @param contaOrigem
+	 * @param contaDestino
+	 */
+	public Operacao(Long id, double valor, Date dataOpercao, StatusOperacao status, TipoOperacao tipoOperacao,
+			Conta contaOrigem, Conta contaDestino) {
+		this.id = id;
+		this.valor = valor;
+		this.dataOpercao = dataOpercao;
+		this.status = status;
+		this.tipoOperacao = tipoOperacao;
+		this.contaOrigem = contaOrigem;
+		this.contaDestino = contaDestino;
+	}
+
+
+
 	/**
 	 * @return the valor
 	 */

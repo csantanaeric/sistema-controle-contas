@@ -30,7 +30,7 @@ public class TransacaoMapper implements RowMapper<Transacao> {
 		transacao.setTransacaoId(rs.getLong("NU_TRANSACAO_ID"));
 		transacao.setData(new Date(rs.getTimestamp("DT_TRANSACAO").getTime()));
 		transacao.setCodigoAporte(rs.getString("CD_APORTE"));
-		transacao.setOperacao(new Transferencia());
+		//transacao.setOperacao(new Transferencia());
 		return transacao;
 	}
 

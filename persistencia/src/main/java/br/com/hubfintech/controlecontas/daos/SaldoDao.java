@@ -13,7 +13,7 @@ import br.com.hubfintech.controlecontas.contas.Saldo;
  */
 public interface SaldoDao {
 	
-	List<Saldo> inserir(Saldo... saldos);
+	void inserir(Saldo... saldos);
 
 	List<Saldo> buscarListaDeSaldos(Long id);
 
